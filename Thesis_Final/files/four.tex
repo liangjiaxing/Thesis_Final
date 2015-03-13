@@ -85,6 +85,8 @@ Strictly dominating subspace $\mathcal{B}$ is the maximal subspace such that giv
 Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, if $u_\mathcal{B}$ equals to the query vertex $q_\mathcal{B}$ in subspace $\mathcal{B}$.
 \end{definition}
 
+In this algorithm, we start from the vertices with labels and update the label distance vector of those vertices. In the next step, we push all the neighbours of those vertices into the queue and update their label distance vectors and keep going.  
+
 \begin{algorithm}[h]
   \caption{Dominating Candidates Set On $1$-Dimensional Subspace}\label{algo:blah}
   \begin{algorithmic}[1]
@@ -183,12 +185,10 @@ Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a ver
     \caption{\label{font-table}dominating candidates set of each $1$-dimensional subspace after the second iteration}
 \end{table}
 
-
-
-
-
-
 In figure~\ref{tab:distances_graph}, we collect the $3$-hop labels by Breath-First-Search and get the label vector. If a vertex has longer distance from a skill than the distance between that skill and the query vertex then the distance between that vertex and that skill is $\infty$.
+
+
+
 \begin{table}[h]
     \centering
     \begin{tabular}{llll}
