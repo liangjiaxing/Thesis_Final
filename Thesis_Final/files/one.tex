@@ -1,0 +1,87 @@
+% !TEX root = ../topk_thesis.tex
+%% Copyright 1998 Pepe Kubon
+%%
+%% `one.tex' --- 1st chapter for thes-full.tex, thes-short-tex from
+%%                the `csthesis' bundle
+%%
+%% You are allowed to distribute this file together with all files
+%% mentioned in READ.ME.
+%%
+%% You are not allowed to modify its contents.
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%       Chapter 1 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Introduction}
+
+In this chapter, we first discuss several interesting applications that motivate the problem of continuous similarity search for evolving queries, which will be studied in this thesis.  Then, we will summarize the major contributions and describe the structure of the thesis.
+
+\section{Motivations}
+
+Let us consider a cold-start recommendation problem at a Q\&A website.  Suppose you want to run $3$ advertisements on the Q\&A website for a user who does not have a profile yet, what advertisements should you display?  In addition to many factors, such as click-through rates of advertisements and bidding price information, a natural and important idea is to consider the advertisements  that are most related to the questions being recently asked at the website by all users.  For example, you may want to retrieve the top-$k$ advertisements that are most similar to the last $n$ questions asked, where the similarity measure captures the relevance between advertisements and questions.  Such advertisements can be used as the candidates for further selection. 
+
+The above scenario is just one of the many applications that motivate the problem to be studied in this thesis.  Given a set of static data objects (e.g., ads in the above example), and an evolving data stream (e.g., the questions asked in the above example), a sliding window on the data stream (e.g., the last $n$ questions in the above example) presents an evolving query.  The problem of \emph{continuous similarity search for evolving queries} is to continuously conduct top-$k$ similarity search on the set of static objects using the evolving queries.  
+
+\begin{example}[Motivation Example]\label{motivation}
+We are given a set of keywords or phrases for each bidding advertisement as shown in Table~\ref{adskeyword}. At the current moment, assume that the keywords and phrases extracted from the last $10$ questions asked by users in the $Q\&A$ website are $\{$insurance, red cross, A7 chip, fingerprint sensor, Apple, iOS 7, Android, uPass$\}$. Without any further background information, we may assume that a new user may also be interested in some of the topics related to the recent questions asked by all users. Thus, to place advertisements for new users, we simply find the advertisements whose keywords or phrases are, to some extent, similar to those extracted from the recent questions. Suppose we always display the top-$2$ most similar advertisements due to limited space on a webpage and quality user experience, the advertisements displayed for newly-registered users would be $ad_5$ and $ad_2$ based on a predefined similarity measurement, for example, overlap similarity or Jaccard similarity. After a short period of time, say a second, if the keywords and phrases of the most recent $10$ questions have been updated to $\{$fingerprint sensor, Apple, iOS 7, Android, uPass, sneaker, Compass Card, TransLink$\}$. The advertisements recommended for the new users now would be changed to $ad_5$ and $ad_3$.             
+\end{example}
+ 
+\begin{table}[t]
+     \centering
+     \caption{Motivation example: keywords on advertisements}
+     %\resizebox{50mm}{!}
+     {
+\begin{tabular}{|c||p{9cm}|} \hline
+      $ad_1$& \{sneaker, outdoor, low-top, Nike, men's\}  \\ \hline
+      $ad_2$& \{insurance, donate, treatment, red cross, cord blood\}  \\ \hline
+      $ad_3$& \{TransLink, uPass, Compass Card, skytrain\}  \\ \hline
+      $ad_4$& \{nikon, lens, megapixels, slr camera\} \\ \hline
+      $ad_5$& \{Apple, iPhone 5s, A7 chip, fingerprint sensor\} \\ \hline
+      $ad_6$& \{Nexus, tablet, Google, Android, resolution\} \\ \hline
+      % Apple, iPad Air, A7 chip, retina, light
+\end{tabular}
+    }
+    \label{adskeyword}
+\end{table}
+
+This problem of continuous similarity search for evolving queries has many important applications.  As another example, in a computer war game, a virtual player has a set of weapons and tools, which is relatively stable.  The player goes through a virtual reality space, where the objects in the continuously updated surrounding environment, such as different types of enemies, scoring opportunities, and obstacles, present a stream of evolving queries.  The virtual players has to select proper weapons and tools that match the current surrounding environment best.  Again, before any gaming strategies can be used, an essential task is to continuously maintain the top-$k$ best weapons and tools with respect to the evolving queries.   
+
+% add some other applications
+Another interesting application with a similar nature is continuous music recommendation by user humming.  A popular service in Apple app store called \emph{Shazam} can identify a song by taking a short sample of the music. It stores the fingerprints of a comprehensive catalog of music in a database. A song is returned if there is a match in the database regarding the fingerprint of the sample of the song uploaded by the user. However, \emph{Shazam} cannot suggest songs continuously if we play small fractions of several songs in a consecutive way. Thus, we would like to find out a solution to suggest songs continuously using the most recent part of a music stream that consists of small fractions of multiple songs as the query. This application is in demand quite often in daily life. For example, suppose we want to request multiple songs in a KTV song request system and cannot remember the name of each song clearly. Instead of checking the exact song names and searching them in the song request system, it would be much more convenient if the system can suggest the songs continuously when we sing a small part of each song consecutively.    
+
+% Similarly, recognizing handwriting continuously during a user's writing process also motivates our problem.  
+
+
+% relation between our problem and previous problems
+
+% More generally, a static similarity search problem involves a collection of objects that are characterized by a collection of relevant features, each object being represented as a point in the corresponding attribute space. Given a query as a point in the attribute space, the search is to find the most similar object (also known as nearest neighbour) to the query. 
+
+Our problem can be considered as the dynamic version of the top-$k$ set similarity search problem. More generally, a traditional similarity search problem involves a collection of objects, a similarity function, and a user defined threshold. The search is to find all the objects in the collection whose similarity scores regarding the query are higher than the pre-defined threshold. Similarity search has many applications, such as information retrieval~\cite{SMG83,GG91,FO95}, near-duplicate web page detection~\cite{H06}, record linkage~\cite{W99}, data compression~\cite{GG91}, data integration~\cite{C98}, image and video search and recommendation~\cite{FBFNPE94,FSNAHDGHLPSY95,PPS94,SJ97}, statistics and data analysis~\cite{DW82,KK95}, machine learning~\cite{CS93}, and data mining~\cite{HT95,BMS07}. Besides answering threshold-based queries, top-$k$ queries are also of great value since given a threshold, the size of the result may be unpredictable and, in many real applications, we are only interested in a small number of most similar objects. Moreover, as to be reviewed in Section~\ref{sec:cont-topk}, the problem of similarity search on data streams has been extensively explored, especially for nearest neighbour search.  However, to the best of our knowledge, the problem of continuous similarity search for evolving queries has not been systematically investigated. 
+
+\section{Contributions}
+In this thesis, we tackle the problem of continuous similarity search for evolving queries. Since in many applications, an object can be represented as a multi-set, such as using a keyword vector to represent a document, we consider static objects as multi-sets, and use weighted Jaccard similarity as the measure.  The major challenge is how to speed up the similarity computation and avoid checking evolving queries with every static object exactly at every time point. We make the following contributions.  
+
+\begin{itemize}
+\item We formulate the problem of \emph{continuous similarity search for evolving queries} that continuously finds the top-$k$ objects in a collection of sets that are most similar to an evolving query.
+\item We develop upper bounds for incremental maintenance of similarity scores.  Those bounds can be computed in constant time.
+\item We propose algorithms based on two general frameworks.  The first one is \emph{pruning and verification}.  The other one is \emph{hashing}. The pruning-based method reduces the cost of computing the exact similarity scores using pruning strategies. The MinHash-based method estimates Jaccard similarity scores based on MinHash technique~\cite{Broder97} and uses indexing structures for efficient updates.
+\item We report an empirical evaluation on both synthetic and real-world data sets, which validates the efficiency and effectiveness of our proposed methods.
+\end{itemize}
+  
+
+\section{Organization of the Thesis}
+The rest of the thesis is organized as follows. In Chapter~\ref{ch:related-work}, we review the related work. We then formulate the problem of \emph{continuous similarity search for evolving queries} in Chapter~\ref{ch:prob-def}. In Chapter~\ref{ch:pruning}, we propose a pruning-based method.  In Chapter~\ref{ch:hashing}, we present a MinHash-based method.  We report our experimental results in Chapter~\ref{ch:exp}, and conclude the thesis in Chapter~\ref{ch:con}.
+
+
+
+
+
+
+
+
+
+

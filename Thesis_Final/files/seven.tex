@@ -1,0 +1,57 @@
+%% Copyright 1998 Pepe Kubon
+%%
+%% `two.tex' --- 2nd chapter for thes-full.tex, thes-short-tex from
+%%               the `csthesis' bundle
+%%
+%% You are allowed to distribute this file together with all files
+%% mentioned in READ.ME.
+%%
+%% You are not allowed to modify its contents.
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%     Chapter 7  
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Conclusions}
+\label{ch:con}
+%\section{Summary of the Thesis}
+Motivated by a variety of application scenarios including advertisement recommendation for new users, automatic suggestions on computer war game strategies, and music recommendation by user humming, in this thesis, we studied the problem of \emph{continuous similarity search for evolving queries}, which is to continuously find the top-$k$ objects in a collection of sets that are most similar to an evolving query. To the best of our knowledge, it is the first research endeavour on this problem. We devised two efficient methods with different frameworks. The pruning-based method uses pruning strategies to reduce the cost of computing the exact similarity scores. This method can be extended to multiple similarity measures including edit distance and cosine similarity. The MinHash-based method approximates Jaccard similarity based on MinHash and efficiently updates the estimated scores using indexing structures. 
+
+We evaluated our methods empirically using synthetic and real data sets. Our synthetic data sets are generated using the IBM Quest Data Generator and the real data sets are market basket data and click stream data. The experimental results verify the effectiveness and efficiency of our methods. Moreover, the results on the real data sets are highly consistent with those on synthetic data sets. 
+
+%\section{Future Work}
+% Our methods can be improved in several aspects. In general, we can take advantage of pruning techniques used in static similarity join and search algorithms. We may also want to generalize the signature-based method for more similarity measures. 
+
+As for future work, we can consider the following interesting directions.  
+
+\begin{itemize}
+% \item We can take advantage of pruning techniques used in static similarity join and search algorithms.
+% \item We may also want to generalize the signature-based method for more similarity measures. For example, Random projection method of LSH.      
+   
+\item \textit{Enhance the pruning effectiveness.} In our pruning-based method, we only consider the progressive bounds that result from the evolvement of our query. We may find a way to incorporate the evolving feature into the pruning techniques used in static similarity join and search algorithms to further prune candidates.    
+
+  
+\item \textit{Improve hashing-based method for other similarity measures.} MinHash is an \emph{locality-sensitive hashing (LSH)} scheme for Jaccard similarity. It not only provides an efficient way to estimate Jaccard similarity, but also performs as signatures that can be indexed for similarity comparison against evolving signatures. We can extend our hashing-based framework to other similarity/distance measures that can be approximated by an LSH scheme. For example, hamming distance can be approximated using a bit sampling scheme~\cite{IndykM98} and cosine similarity can be approximated using a random projection method~\cite{C02}. However, as some preliminary results in Section~\ref{sec:other-measure} shows, the indexing structure is not good enough when every element in a signature can only take binary values. We may consider improving the inverted indices or constructing other indexing structures for this kind of similarity measures.  
+                                 
+
+\item \textit{Similarity search over multiple evolving streams.} Let us consider a variation of our problem. Given a static object and multiple data streams with a fixed sliding window size, we want to continuously find the top-$k$ data streams whose last $n$ items is most similar to the static object. The progressive bounds derived in the pruning-based method still holds. A similar pruning algorithm can be devised based on the bounds. As for the hashing-based framework, unlike our problem that stores hash values for each static transaction and only update the hash values of the query, we need to update the hash values for each sliding window. Therefore, efficient techniques for updating or estimating the hash values is desired.        
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+%% Copyright 1998 Pepe Kubon
+%%
+%% `two.tex' --- 2nd chapter for thes-full.tex, thes-short-tex from
+%%               the `csthesis' bundle
+%%
+%% You are allowed to distribute this file together with all files
+%% mentioned in READ.ME.
+%%Discuss the reality where queries are not randomly generated.
+%% You are not allowed to modify its contents.
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%     Chapter 2   
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Related Work}
+\label{ch:related-work}
+
+Our problem of \emph{continuous similarity search for evolving queries} is mainly related to the existing work on similarity search and continuous top-$k$ queries, which are reviewed in Section~\ref{sec:static-sim-search} and Section~\ref{sec:cont-topk}, respectively.   
+% In Section~\ref{sec:static-sim-search}, we review the previous methods on static similarity join and search. We then discuss the data stream models and      
+% We briefly review the state-of-the-art methods in this section.  A thorough survey on those topics is far beyond the capacity of the paper.
+
+\section{Similarity Join and Search}
+\label{sec:static-sim-search}
+The static version of similarity search has been studied extensively. The state-of-the-art methods can be categorized into two major groups, namely, a filtering-based framework and a hashing-based framework.
+
+\subsection{Filtering-based Methods}
+% Sarawagi and Kirpal~\cite{SK04} proposed an inverted index-based probing method for similarity joins on sets. 
+The general idea of filtering-based approaches is to develop efficient and effective filters to prune objects whose similarity, regarding the query, cannot be larger than a threshold.  Consequently, the exact similarity scores, which are supposed to be more expensive to compute, are calculated for only a small number of surviving objects from filtering.  
+% Some examples of such filters can be upper bounds on the similarity and pruning strategies by exploring a small portion of the data.  
+
+\emph{Similarity join and search over sets}. Chaudhuri~\textit{et~al.}~\cite{CGK06} developed the prefix-filtering principle for similarity joins. The intuitive idea is that if two objects are similar, they tend to have overlap in a portion of the records. The main strategy is to prune object pairs whose prefix sets, according to a global ordering, do not have any overlap and thus the similarity between the original objects is guaranteed to be smaller than the similarity threshold. The filtering phase is followed by a verification phase where similarity between the surviving objects and the query is computed.  Bayardo~\textit{et~al.}~\cite{BMS07} proposed the \emph{All-Pairs} algorithm that further improves the prefix-filtering approach using various refinements, such as tight transformation regarding threshold constraints between overlap similarity and other similarity measures, an index reduction principle on prefix size, and a length filtering scheme.  Xiao~\textit{et~al.}~\cite{XWLY08} devised a positional filtering approach, ppjoin+, which makes use of the token ordering information. By applying this method on the prefix and the suffix of an object, the number of candidate pairs can be reduced significantly.  Recently, Wang~\textit{et~al.}~\cite{WangLF12} proposed an adaptive framework to select prefix for each object based on the observation that the computational cost for each object may not be the lowest when the prefix length is fixed.  
+
+\emph{Similarity join and search over strings}. Most of the current methods for string similarity join and search are focused on developing filtering techniques that operate on $q$-gram representation of strings that transforms a string to a set and use edit distance as the similarity constraint. Gravano~\textit{et~al.}~\cite{GIJKMS01} first introduced the idea of $q$-gram representation, which is a set of substrings obtained by sliding a window of length $q$ over the original string. Three types of filtering strategies are used, namely, count filtering, position filtering, and length filtering. Instead of matching $q$-grams using the traditional filtering methods, a new perspective by studying mismatching $q$-grams was presented in~\cite{XWL08}. Besides that, they also proposed two new filtering methods: location-based mismatch filtering and content-based mismatch filtering, to detect the minimum edit errors and the cluster edit errors, respectively. There are also some other filtering approaches without using $q$-grams. For example, Li~\textit{et~al.}~\cite{LiDF13} proposed a segment filter that first partitions the strings and builds indices over the segments. These segments are used as filters with the intuition that dissimilar string pairs share none or limited number of segments. More interestingly, Chen~\textit{et~al.}~\cite{ChenN04} developed pruning strategies that use triangle inequality for large time series databases. The metric distance function used is a combination of L1-norm and edit distance, which is called ERP (``Edit distance with Real Penalty"). The idea of this method can be used for edit distance since it satisfies triangle inequality. 
+
+\emph{Top-$k$ similarity join and search on sets and strings}. Besides methods for threshold-based queries as discussed above, some work has been done on top-$k$ similarity join and search for both sets and strings. The main technical challenge of answering top-$k$ queries is that the $k$-th largest similarity score is unknown.  Xiao~\cite{XiaoWLS09} studied the problem of top-$k$ set similarity join based on the prefix-filtering framework and the incremental execution of the \emph{All-Pairs} algorithm. Some optimization techniques, such as the monotonicity of the $k$-th largest similarity seen so far, are applied.  As for top-$k$ string similarity search, Deng~\cite{DengLFL13} designed a progressive framework to compute edit distance efficiently and extended it to support top-$k$ similarity search.
+
+\emph{Nearest neighbour search in $d$-dimensional Euclidean space}. Some typical indexing structures for nearest neighbour search are $k\text{-}d$ tree~\cite{DBLP:journals/cacm/Bentley75} and $R$ tree~\cite{DBLP:conf/sigmod/Guttman84}. A $k\text{-}d$ tree is built by iteratively partitioning the search space into two regions, each containing half of the points of the parent region. The idea of $R$ tree is to bound objects using minimum bounding rectangles and thus group close objects together. Both tree structures can be used to prune objects that are far away from the query point. In our problem, objects are modeled as sets instead of points in Euclidean space. Since most of the previous indexing structures are based on space partitioning, it is not feasible to apply to our problem.
+
+%Since $R$ tree supports efficient insertion and deletion, it can be used when the objects in the space are not static.
+
+
+\subsection{Hashing-based Methods}
+% mention LSH
+The second category is hashing-based methods. The general idea is to develop hash functions that have good locality preservation properties -- similar objects are likely hashed to the same bucket, which is formally introduced in~\cite{IndykM98} for approximate nearest neighbour search in $d$-dimensional Euclidean space. The basic principle is to hash the points using multiple hash functions such that closer points have higher probability of collision than points that are far away. Gionis~\textit{et~al.}~\cite{GIR99} further improved the algorithms and achieved better query time guarantees. Later, an improved algorithm that almost achieves the space and time lower bounds is presented in~\cite{AndoniI06}. The MinHash technique~\cite{Broder97} is used to approximate the resemblance and the containment of sets. This technique is used to estimate the rarity and similarity between two windowed data streams in~\cite{DatarM02}. Moreover, Charikar~\cite{C02} proposed SimHash to hash similar data to similar values. An estimation for vector-based cosine similarity using a random projection method is also discussed.    
+
+In this thesis, we explore both filtering-based and hashing-based methods, which have not been addressed in the existing literature for evolving queries. 
+
+
+\section{Continuous Queries over a Data Stream}
+\label{sec:cont-topk}
+% add data stream models
+In this section, we briefly review various data stream models. Since our problem shares many common characteristics with continuous query answering over a data stream, we then review related problems including but not limited to similarity search.  
+
+\subsection{Data Stream Models}
+A data stream is a sequence of data elements $a_1, a_2, \dots$ that arrives item by item, which describes an underlying signal. The signal is a one-dimensional function $A: [1...N] \mapsto R$, where the domain consists of integers and the range is the set of real numbers. As mentioned in~\cite{muthukrishnan05}, there are mainly three models that differ on how items describe the signal, namely, time series model, turnstile model, and cash register model. We summarize the models briefly as the following.  
+
+\begin{itemize}
+\item \textbf{Time Series Model} This is the simplest model in which each $a_i$ is equal to $A[i]$ and items show up in the increasing order of $i$. We can think of the daily closing price of a stock from the listing date to the present as a data stream. Each $a_i$ corresponds to the closing price of the stock at day $i$.          
+
+\item \textbf{Turnstile Model} In this most general model, $a_i = (j, U_i)$ which is an update to $A[j]$ where $U_i$ can be any real number. Suppose $A_i$ is the signal after processing the $i^{th}$ item $a_i$ in the stream, the update can be written as $A_i[j] = A_{i-1}[j] + U_i$. Let us consider a scenario where $N$ investors buy and sell shares of a certain stock. Since investors can buy and sell stock without particular order, a data stream, i.e., a sequence of transactions, $a_1, a_2, \dots$, can be generated. The $i^{th}$ transaction $a_i = (j, U_i)$ indicates that investor $j$ wants to buy $|U_i|$ shares if $U_i > 0$ and sell $|U_i|$ shares otherwise. Then, the total shares held by investor $j$ is updated by $A_i[j] = A_{i-1}[j] + U_i$.       
+
+\item \textbf{Cash Register Model} It can be considered as a special case of the Turnstile model where $U_i \geq 0$. To be more specific, each $a_i=(j, U_i)$ is an increment instead of a general update to $A[j]$. Following the previous example, if investors can only buy shares of stocks, the transaction sequence fits the cash register model. 
+
+\end{itemize}
+
+Many streaming algorithms are designed for the entire data stream. However, a wide range of real applications, such as web log mining and stock market prediction, do not consider outdated elements important. Thus, the sliding window model is of great importance. In this model, we only consider the most recent part of the data stream. Typically, there are two types of sliding windows with equal importance. The count-based sliding window is of fixed size and contains the last $n$ items in the data stream. The time-based sliding window allows bursts at a single time unit since it contains the items that arrived in the last $n$ time units. In this thesis, we focus on the count-based sliding window.   
+
+\subsection{Answering Continuous Queries}
+
+Different evolving models are used in previous studies that investigated continuous queries over a data stream. For example, Kontaki~\textit{et~al.}~\cite{KP04} studied similarity range queries in streaming time sequences using Euclidean distance, where both the query and data objects are evolving. An indexing method that is based on incremental computation method for Discrete Fourier Transform is used for achieving high candidates ratio. Lian~\textit{et~al.}~\cite{DBLP:conf/dasfaa/LianCW07} tackled the similarity search problem over multiple stream time series, given a static time series as a query. An approximation algorithm is developed using a weighted locality sensitive hashing technique. 
+
+Motivated by a wide range of applications such as network intrusion detection, much work~\cite{DBLP:conf/icde/BohmOPY07, DBLP:conf/vldb/KoudasOT004, DBLP:journals/tkde/MouratidisP07, DBLP:journals/tkde/MouratidisPBT05} has been embarked on monitoring nearest neighbour (NN) queries continuously over a data stream. The basic idea is to utilize indexing structures for reducing memory consumption and supporting efficient updates. Mouratidis~\textit{et~al.}~\cite{DBLP:journals/tkde/MouratidisP07} proposed two approaches for continuous monitoring of NN queries over sliding window streams.  The first approach extends the conceptual partitioning method to the sliding window model. Skyline maintenance techniques and pre-computation of future changes in nearest neighbours are used in the second approach.  Koudas~\textit{et~al.}~\cite{DBLP:conf/vldb/KoudasOT004} developed an approximation algorithm that utilizes an indexing scheme, DISC, and has guaranteed error and performance bound.
+
+The existing work on continuously monitoring nearest neighbours for mobile query object is different from the problem studied here. In those previous studies, the mobile object is assumed to move in a trajectory, potentially predictable to some extent.  In this thesis, the stream presenting an evolving query is not assumed a moving object.  Instead, we simply use the current sliding window as the current query.  The existing methods on continuous nearest neighbour monitoring for mobile objects cannot solve our problem.
+
+% To continuously querying the top-$k$ correlated graphs in a data stream scenario, Pan and Zhu~\cite{PZ12} proposed a two-level candidate checking scheme, one corresponding to the potential global candidate, and the other corresponding to the local candidate. This method can discover the emerging candidate patterns without processing the historical global data repetitively. 
+Besides continuous queries on similarity search problems, some interesting work is done for graph streams and general functions defined over data streams. Pan and Zhu~\cite{PZ12} developed a two-level candidate checking scheme for continuously querying the top-$k$ correlated graphs in a data stream scenario where static queries are posed on evolving graph streams. Mouratidis~\textit{et~al.}~\cite{DBLP:conf/sigmod/MouratidisBP06} proposed two approaches for continuously answering top-$k$ queries where the query is a static preference function over a fixed-sized sliding window. One approach is to compute new answers whenever a current top-$k$ point expired and the other approach is to precompute future changes partially. 
+
+Our proposed methods aim at providing algorithmic frameworks on how to deal with similarity search over evolving queries.  In our problem, we can take advantage of the fact that consecutive queries in a stream are very similar.  This results in some important design in our algorithms, which distinguishes our methods from the previous ones.  For example, we derive an upper bound on similarity scores after a few updates based on how the queries evolve.  The pruning-based algorithm uses this bound to prune unpromising candidates.  In the hashing-based algorithm, we maintain fixed-length signatures for all transactions and a query.  Since consecutive queries share a large portion of items, the change in the signature of the query is small.  With the help of inverted index, we can further speed up the updates of similarity scores.      
+
+% Yu~\textit{et~al.}~\cite{DBLP:conf/icde/YuPK05} developed two grid-based methods that indexes data objects or query objects for answering $k$-NN queries over moving objects.  
+
+% Kontaki~\textit{et~al.}~\cite{KPM12} considered the problem of answering continuous top-$k$ dominating queries that ranks multidimensional points regarding their dominance power based on a sliding window. Their methods are based on event scheduling techniques, which aim for reducing costly computations. 
+
+% The general idea is to reduce computation cost utilizing the fact that queries are evolving. Thus, we can think of how the evolvement of the query may affect the query results. 
+
+ 
+
+
+
+
+
+

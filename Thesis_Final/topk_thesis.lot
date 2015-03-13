@@ -1,0 +1,29 @@
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Motivation example: keywords on advertisements\relax }}{2}{table.caption.6}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces A collection of sets $\mathcal {R}$\relax }}{12}{table.caption.8}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Jaccard similarity scores\relax }}{13}{table.caption.10}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Symbols Used in the Pruning-based Algorithms\relax }}{16}{table.caption.11}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Edit distance tables for Example\nobreakspace {}\ref {example:comp-edit} and Example\nobreakspace {}\ref {example:bound-ed}\relax }}{20}{table.caption.14}
+\contentsline {subtable}{\numberline {(a)}{\ignorespaces {$\delta _i=2, \delta _d=1, \delta _s=3$}}}{20}{subtable.4.2.2}
+\contentsline {subtable}{\numberline {(b)}{\ignorespaces {$\delta _i=\delta _d=\delta _s=1$}}}{20}{subtable.4.2.2}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces An Example of Jaccard Similarity Estimation\relax }}{30}{table.caption.16}
+\contentsline {subtable}{\numberline {(a)}{\ignorespaces {Matrix Representation of Sets}}}{30}{subtable.5.1.4}
+\contentsline {subtable}{\numberline {(b)}{\ignorespaces {Random Permutations}}}{30}{subtable.5.1.4}
+\contentsline {subtable}{\numberline {(c)}{\ignorespaces {Signature Matrix for Example\nobreakspace {}\ref {examinh}}}}{30}{subtable.5.1.4}
+\contentsline {subtable}{\numberline {(d)}{\ignorespaces {Comparison on Exact and Estimated Jaccard Similarity}}}{30}{subtable.5.1.4}
+\contentsline {table}{\numberline {5.2}{\ignorespaces Notations used by MinHash-based Algorithms\relax }}{31}{table.caption.17}
+\contentsline {table}{\numberline {5.3}{\ignorespaces An Example of Inverted Indices for MinHash Values\relax }}{32}{table.caption.20}
+\contentsline {subtable}{\numberline {(a)}{\ignorespaces {Index for $h_1$}}}{32}{subtable.5.3.5}
+\contentsline {subtable}{\numberline {(b)}{\ignorespaces {Index for $h_3$}}}{32}{subtable.5.3.5}
+\contentsline {subtable}{\numberline {(c)}{\ignorespaces {Index for $h_5$}}}{32}{subtable.5.3.5}
+\contentsline {subtable}{\numberline {(d)}{\ignorespaces {Index for $h_2$}}}{32}{subtable.5.3.5}
+\contentsline {subtable}{\numberline {(e)}{\ignorespaces {Index for $h_4$}}}{32}{subtable.5.3.5}
+\contentsline {table}{\numberline {5.4}{\ignorespaces Comparison on Exact and Estimated Jaccard Similarity for Example\nobreakspace {}\ref {topkMHI}\relax }}{34}{table.caption.22}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Values of Controlled Variables for Tests on Jaccard Similarity\relax }}{37}{table.caption.26}
+\contentsline {table}{\numberline {6.2}{\ignorespaces Real Data Sets Statistics\relax }}{39}{table.caption.28}
+\addvspace {10\p@ }

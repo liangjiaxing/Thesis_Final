@@ -1,0 +1,54 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces An Example on Count-based Sliding Window\relax }}{11}{figure.caption.7}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces An Example on Time-based Sliding Window\relax }}{11}{figure.caption.7}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Query stream $\mathcal {S}$ and query $q$\relax }}{12}{figure.caption.9}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Query stream $\mathcal {S}$ after a new item arrives, presenting query $q'$\relax }}{12}{figure.caption.9}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Graph Representations for Applying Triangle Inequality\relax }}{21}{figure.caption.15}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{21}{figure.caption.15}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{21}{figure.caption.15}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Inverted Indices for MinHash Values\relax }}{32}{figure.caption.19}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Average Processing Time on IBM Quest Data Set Using Jaccard Similarity\relax }}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Large $|\Sigma |$}}}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Small $|\Sigma |$}}}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {}}}{43}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {}}}{43}{figure.caption.23}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Average Accuracy of Hashing-based Method on IBM Quest Data Set Using Jaccard Similarity\relax }}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Large $|\Sigma |$}}}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Small $|\Sigma |$}}}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {}}}{44}{figure.caption.24}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {}}}{44}{figure.caption.24}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Pruning Effectiveness of GP on IBM Quest Data Set Using Jaccard Similarity\relax }}{45}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Large $|\Sigma |$}}}{45}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Small $|\Sigma |$}}}{45}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{45}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{45}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {}}}{45}{figure.caption.25}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Results on Market Basket Dataset Using Jaccard Similarity\relax }}{46}{figure.caption.27}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{46}{figure.caption.27}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{46}{figure.caption.27}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{46}{figure.caption.27}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{46}{figure.caption.27}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {}}}{46}{figure.caption.27}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Results on Click Stream Dataset Using Jaccard Similarity\relax }}{47}{figure.caption.29}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{47}{figure.caption.29}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{47}{figure.caption.29}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{47}{figure.caption.29}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{47}{figure.caption.29}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {}}}{47}{figure.caption.29}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Results on Click Stream Dataset Using Cosine Similarity\relax }}{48}{figure.caption.30}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{48}{figure.caption.30}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{48}{figure.caption.30}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{48}{figure.caption.30}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Results on Click Stream Dataset Using Edit Similarity\relax }}{48}{figure.caption.31}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{48}{figure.caption.31}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{48}{figure.caption.31}
+\addvspace {10\p@ }
