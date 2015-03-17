@@ -232,3 +232,44 @@ Pruning a vertex $u$ from $Cand$ that $\exists v, (SDS_u \cup EQS_u \subseteq SD
 Let $v$ be a vertex that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. For any subspace $\mathcal{B}$. Case 1: $q$ is a skyline in subspace $\mathcal{B}$. Then $Cand_\mathcal{B}$ does not contain any elements. Pruning $v$ from $Cand$ does not change the result.
 Case 2: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by a vertex $w$, removing $v$ does not change the result. Case 3: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by $u$, then $(\mathcal{B} \subseteq EQS_u \cup SDS_u) \wedge (\mathcal{B} \cap SDS_u \not= \emptyset)$, and there exists such a $v$ that ($SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. And $(\mathcal{B} \subseteq EQS_v \cup SDS_v) \wedge (\mathcal{B} \cap SDS_v \not= \emptyset)$ is satisfied. Therefore $v$ also dominates $q$ and removing $u$ from $CAND$ does not affect the result.
 \end{proof}
+
+\begin{algorithm}[H]
+  \caption{1-hop Pruning}
+  \label{algo:blah}
+  \begin{algorithmic}[1]
+  \show\LOOP
+    \REQUIRE Strictly Dominating Subspace $SDS$, Equivalence Subspace $EQS$, Dominating Candidates $CAND$, query vertex $q$, graph $G=(V, E)$;
+    \ENSURE Pruned Dominating Candidates $CAND$;
+    \STATE s = $\left\{v|e(v, q) \in E \wedge (\forall u, e(u, q) \in E \wedge SDS_v \not\subset SDS_u)\right\}$
+    
+    \FORALL {$(l, dist)$ in $LV_q$}
+        \FORALL {$u$ in $CAND_l$}
+            \FORALL {$v$ in $s$}
+                \IF {$u \not= v \wedge SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v \wedge SDS_u \subseteq SDS_v$}
+                    \STATE delete $u$ from $CAND_l$
+                \ENDIF
+                
+            \ENDFOR
+        \ENDFOR
+    \ENDFOR
+  \end{algorithmic}
+\end{algorithm}
+
+
+\begin{frame}{Dominating Candidates after pruning}
+    \begin{table}[h]
+    \begin{tabular}{lllll}
+    \hline
+    Distances & A & B & C & Pruned By\\ \hline
+    $u$       & 0 & $\infty$ & $\infty$ &\\ \hline
+    $v$       & 1 & $\infty$ & $\infty$ & $u$\\ \hline
+    $w$       & $\infty$ & 0 & 0 &\\ \hline
+    $x$       & $\infty$ & $\infty$ & $\infty$ & $u$\\ \hline
+    $y$       & $\infty$ & 0 & 1 & $w$\\ \hline
+    $z$       & 1 & 1 & 2 &\\ \hline
+    \end{tabular}
+    \caption{\label{font-table} distances after pruning}
+    \label{tab:dom_cand_pruned}
+    \end{table}
+    By Table~\ref{tab:SDS_EQS}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:dom_cand_pruned} show the result after pruning.
+\end{frame}
