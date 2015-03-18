@@ -258,7 +258,22 @@ By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-
   \end{algorithmic}
 \end{algorithm}
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    Dim & $SDS$       & $EQS$       & $SDS \cup EQS$ \\ \hline
+    $u$ & A           & $\emptyset$ & A              \\ \hline
+    $v$ & $\emptyset$ & A           & A              \\ \hline
+    $w$ & BC          & $\emptyset$ & BC             \\ \hline
+    $x$ & $\emptyset$ & $\emptyset$ & $\emptyset$    \\ \hline
+    $y$ & BC          & $\emptyset$ & BC             \\ \hline
+    \end{tabular}
+    \caption{\label{font-table} the $SDS$ and $EQS$ of each vertex}
+    \label{tab:SDS_EQS}
+\end{table}
 
+Table~\ref{tab:SDS_EQS} shows the $SDS$ and $EQS$ of all vertices on the graph. We can prune the unnecessary vertices from the \emph{dominating candidate set} according this table. By Property~\ref{ppt:prune_cand}, vertex $v$ can be pruned by $v$ and vertex $w$ and $y$ can be pruned by each other.
 
 \begin{table}[h]
     \centering
@@ -272,10 +287,24 @@ By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-
     $y$       & $\infty$ & 0 & 1 & \\ \hline
     $z$       & 1 & 1 & 2 &\\ \hline
     \end{tabular}
-    \caption{\label{font-table} 1-hop pruning}
+    \caption{\label{font-table} label distance vector after 1-hop pruning}
+    \label{tab:lv_pruned}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    Subspaces & Dominating Candidates \\ \hline
+    A         & $(u, dom)$            \\ \hline
+    B         & $(y, dom)$            \\ \hline
+    C         & $(y, dom)$            \\ \hline
+    \end{tabular}
+    \caption{\label{font-table} Pruned dominating candidate set of $1$-dimensional subspace}
     \label{tab:dom_cand_pruned}
 \end{table}
-    By Table~\ref{tab:dom_cand_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:dom_cand_pruned} show the result after pruning.
+
+By Table~\ref{tab:lv_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:lv_pruned} show the vertices to be pruned and their label distance vectors. Although $w$ seems to be a better vertex (because $w$ dominates $y$),  the vertex $w$ is pruned by the vertex $y$ because both vertex $y$ and vertex $w$ have the same \emph{strictly dominating subspace} and \emph{equivalence subspace} and $y$ is a $1$-hop neighbour of the query vertex $q$. Table~\ref{tab:dom_cand_pruned} shows the dominating candidates set of $1$-dimensional subspace after the $1$-hop neighbour pruning.
 
 \subsection{Dominating Candidate Set on Multi-dimensional Subspace}
 
@@ -285,7 +314,7 @@ We generate the dominating candidate set on multi-dimensional subspace by inters
 CAND Set Intersection. $\mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B} = \left\{(u, OR(x, y)) |\forall u, (u, x)\in \mathit{CAND}_\mathcal{A} \wedge (u, y)\in \mathit{CAND}_\mathcal{B} \right\}$, where $OR(x, y) = equal$ if $x = equal$ and $y = equal$, otherwise, $OR(x, y) = dom$.
 \end{definition}
 
-
+For example, 
 
 
 \subsection{Subspace Eumeration}
