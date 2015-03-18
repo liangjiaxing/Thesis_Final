@@ -311,10 +311,21 @@ By Table~\ref{tab:lv_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be
 We generate the dominating candidate set on multi-dimensional subspace by intersecting the smaller dominating candidate set. Since each element in the CAND set of subspace $\mathcal{B}$ has a property \emph{dom} or \emph{eq} representing if that element is dominating query vertex $q$ in subspace $\mathcal{B}$ or equal to the query vertex $q$ in subspace $\mathcal{B}$, we define the CAND set intersection in the following way.
 
 \begin{definition}[CAND Set Intersection]
-CAND Set Intersection. $\mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B} = \left\{(u, OR(x, y)) |\forall u, (u, x)\in \mathit{CAND}_\mathcal{A} \wedge (u, y)\in \mathit{CAND}_\mathcal{B} \right\}$, where $OR(x, y) = equal$ if $x = equal$ and $y = equal$, otherwise, $OR(x, y) = dom$.
+\label{def:cand_intersect}
+\begin{equation}
+\begin{split}
+\mathit{CAND}_{\mathcal{A} \cup \mathcal{B}} &= \mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B}\\
+           &= \left\{(u, OR(x, y)) |\forall u, (u, x)\in \mathit{CAND}_\mathcal{A} \wedge (u, y)\in \mathit{CAND}_\mathcal{B} \right\}
+\end{split}
+\end{equation}
+where $OR(x, y) = equal$ if $x = equal$ and $y = equal$, otherwise, $OR(x, y) = dom$.
 \end{definition}
 
-For example, 
+For example, consider two dominating candidate sets $\mathit{CAND}_\mathcal{A} = \left\{(u, dom)\right\}$ and $\mathit{CAND}_\mathcal{B} = \left\{(u, eq)\right\}$. And we want to compute the CAND intersection of these two dominating candidates sets $\mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B}$. 
+Both $\mathit{CAND}_\mathcal{A}$ and $\mathit{CAND}_\mathcal{B}$ contain the element $u$. 
+
+In the other words, vertex $u$ dominates query vertex $z$ in subspace $\mathcal{A}$ and vertex $u$ is equal to query vertex $q$ in subspace $\mathcal{B}$. 
+Therefore, vertex $u$ dominates query vertex $q$ in the subspace $\mathcal{A} \cup \mathcal{B}$ because $u$ is less than $q$ in at least one dimension of $\mathcal{A} \cup \mathcal{B}$ ($u$ dominates $q$ in $\mathcal{A}$). By the Definition~\ref{def:cand_intersect}, we can also get the same answer $\mathit{CAND}_{\mathcal{A} \cup \mathcal{B}}$ = $\mathit{CAND}_\mathcal{A} = \left\{(u, dom)\right\}$.
 
 
 \subsection{Subspace Eumeration}
