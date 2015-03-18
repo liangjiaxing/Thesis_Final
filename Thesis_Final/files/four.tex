@@ -233,20 +233,23 @@ Let $v$ be a vertex that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_
 Case 2: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by a vertex $w$, removing $v$ does not change the result. Case 3: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by $u$, then $(\mathcal{B} \subseteq EQS_u \cup SDS_u) \wedge (\mathcal{B} \cap SDS_u \not= \emptyset)$, and there exists such a $v$ that ($SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. And $(\mathcal{B} \subseteq EQS_v \cup SDS_v) \wedge (\mathcal{B} \cap SDS_v \not= \emptyset)$ is satisfied. Therefore $v$ also dominates $q$ and removing $u$ from $CAND$ does not affect the result.
 \end{proof}
 
+One observation is that the unnecessary points is very likely to be pruned by the neighbours of the query vertex $q$. The intuition is that the neighbours of query vertex $q$ will have larger \emph{Strictly Dominating Set} because the query vertex $q$ collects the labels from its neighbours and the neighbours strictly dominate the query vertex in some of the subsets of those labels.
+By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-hop pruning algorithm. In Algorithm~\ref{algo:pruning_graph}, we compare the $\mathit{SDS}$ and $\mathit{EQS}$ values of neighbours of the query vertex $q$ to all the vertex in the graph in order to prune the some of the candidates in the dominating set.
+
 \begin{algorithm}[H]
   \caption{1-hop Pruning}
-  \label{algo:blah}
+  \label{algo:pruning_graph}
   \begin{algorithmic}[1]
   \show\LOOP
-    \REQUIRE Strictly Dominating Subspace $SDS$, Equivalence Subspace $EQS$, Dominating Candidates $CAND$, query vertex $q$, graph $G=(V, E)$;
-    \ENSURE Pruned Dominating Candidates $CAND$;
+    \REQUIRE Strictly Dominating Subspace $\mathit{SDS}$, Equivalence Subspace $\mathit{EQS}$, Dominating Candidates $\mathit{CAND}$, query vertex $q$, graph $G=(V, E)$;
+    \ENSURE Pruned Dominating Candidates $\mathit{CAND}$;
     \STATE s = $\left\{v|e(v, q) \in E \wedge (\forall u, e(u, q) \in E \wedge SDS_v \not\subset SDS_u)\right\}$
     
     \FORALL {$(l, dist)$ in $LV_q$}
-        \FORALL {$u$ in $CAND_l$}
+        \FORALL {$u$ in $\mathit{CAND}_l$}
             \FORALL {$v$ in $s$}
                 \IF {$u \not= v \wedge SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v \wedge SDS_u \subseteq SDS_v$}
-                    \STATE delete $u$ from $CAND_l$
+                    \STATE delete $u$ from $\mathit{CAND}_l$
                 \ENDIF
                 
             \ENDFOR
@@ -256,20 +259,66 @@ Case 2: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by a
 \end{algorithm}
 
 
-\begin{frame}{Dominating Candidates after pruning}
-    \begin{table}[h]
+
+\begin{table}[h]
+    \centering
     \begin{tabular}{lllll}
     \hline
     Distances & A & B & C & Pruned By\\ \hline
     $u$       & 0 & $\infty$ & $\infty$ &\\ \hline
     $v$       & 1 & $\infty$ & $\infty$ & $u$\\ \hline
-    $w$       & $\infty$ & 0 & 0 &\\ \hline
+    $w$       & $\infty$ & 0 & 0 & $y$\\ \hline
     $x$       & $\infty$ & $\infty$ & $\infty$ & $u$\\ \hline
-    $y$       & $\infty$ & 0 & 1 & $w$\\ \hline
+    $y$       & $\infty$ & 0 & 1 & \\ \hline
     $z$       & 1 & 1 & 2 &\\ \hline
     \end{tabular}
-    \caption{\label{font-table} distances after pruning}
+    \caption{\label{font-table} 1-hop pruning}
     \label{tab:dom_cand_pruned}
-    \end{table}
-    By Table~\ref{tab:SDS_EQS}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:dom_cand_pruned} show the result after pruning.
-\end{frame}
+\end{table}
+    By Table~\ref{tab:dom_cand_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:dom_cand_pruned} show the result after pruning.
+
+\subsection{Dominating Candidate Set on Multi-dimensional Subspace}
+
+We generate the dominating candidate set on multi-dimensional subspace by intersecting the smaller dominating candidate set. Since each element in the CAND set of subspace $\mathcal{B}$ has a property \emph{dom} or \emph{eq} representing if that element is dominating query vertex $q$ in subspace $\mathcal{B}$ or equal to the query vertex $q$ in subspace $\mathcal{B}$, we define the CAND set intersection in the following way.
+
+\begin{definition}[CAND Set Intersection]
+CAND Set Intersection. $\mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B} = \left\{(u, OR(x, y)) |\forall u, (u, x)\in \mathit{CAND}_\mathcal{A} \wedge (u, y)\in \mathit{CAND}_\mathcal{B} \right\}$, where $OR(x, y) = equal$ if $x = equal$ and $y = equal$, otherwise, $OR(x, y) = dom$.
+\end{definition}
+
+
+
+
+\subsection{Subspace Eumeration}
+\begin{algorithm}[H]
+  \caption{Subspace Eumeration}\label{algo:blah}
+    \begin{algorithmic}[1]
+  \show\LOOP
+    \REQUIRE Dominating Candidates $\mathit{CAND}$ of all one dimension subspaces in $LV_q$;
+    \ENSURE A set of subspaces $SUB$ where query vertex $q$ is a skyline;
+        \FORALL {$\left(l, dist\right)$ in $LV_q$}
+            \STATE if $\exists u, (u, dom)\in \mathit{CAND}_l$, add $l$ to $SUB$, else add $l$ to $L_1$
+        \ENDFOR
+        \STATE $k$ = 2
+        
+        \WHILE {$L_{k-1} \not= \emptyset$}
+        
+            \STATE $C_k = \left\{\mathcal{A} \cup \left\{b\right\} | \mathcal{A} \in L_{k-1} \wedge b \in \bigcup L_{k-1} \wedge b \notin \mathcal{A} \right\}$
+            
+            \FORALL{(k-1)-subsets $s$ of $c$ do}
+                \IF {$s \notin L_{k-1}$}
+                    \STATE delete $c$ from $C_k$
+                    
+                \ENDIF
+            \ENDFOR
+            
+            \FORALL{$\mathcal{C}$ in $C_k$}
+                \STATE Let $b$ be the last element in $c$
+                \STATE $CAND_\mathcal{C}$ = $CAND_b \cap CAND_{\mathcal{C}-\left\{b\right\}}$
+                \STATE if $CAND_l$ is empty, add $l$ to $SUB$, else add $l$ to SUB
+            \ENDFOR
+            
+            \STATE $k$ = $k$ + 1
+        \ENDWHILE
+        \RETURN SUB
+  \end{algorithmic}
+\end{algorithm}
