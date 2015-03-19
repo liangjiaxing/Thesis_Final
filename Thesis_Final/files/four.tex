@@ -18,11 +18,29 @@
 \chapter{A Pruning-based Method On Graph}
 \label{ch:graph}
 
-In this section, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all the subspaces to check whether the query vertex is a subspace skyline in those subspaces. This method could be very time consuming. In order to make the algorithm more efficient, we manage to avoid some unnecessary computations by applying some pruning techniques in our method.
+In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all the subspaces to check whether the query vertex is a subspace skyline in those subspaces. This method could be very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computations by applying some pruning techniques in our method.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{11cm}|}
+\hline
+Symbol                      & Interpretation                                                                                                                                     \\ \hline
+$q$                         & query vertex $q$                                                                                                                                   \\ \hline
+$LV_v$                      & label distance vector of vertex $v$ representing the distances between $v$ and each label.                                                         \\ \hline
+$\mathcal{B}$               & subspace $\mathcal{B}$                                                                                                                             \\ \hline
+$\mathit{SDS}_u$            & strictly dominating subspace of $u$                                                                                                                \\ \hline
+$\mathit{EQ}_u$             & equivalence subspace of $u$                                                                                                                        \\ \hline
+$\mathit{CAND}_\mathcal{B}$ & dominating candidate set of subspace $\mathcal{B}$                                                                                                 \\ \hline
+$(u, dom)$                  & element in dominating candidate set. $(u, dom) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$. \\ \hline
+$(u, eq)$                   & element in dominating candidate set. $(u, eq) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$.  \\ \hline
+\end{tabular}
+    \caption{\label{font-table}Symbols Used in the Pruning-based Method on Graph}
+    \label{tab:symbol_graph}
+\end{table}
 
 \section{BFS Label Collecting}
 \label{sec:bfs-collect}
-We collect the d-hop labels by Breadth-First-Search and get the label vector. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the entry of that label in \emph{label distance vector} to the distance from query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the $label distance vector$ of the query vertex when the BFS label collecting ends.
+We collect the d-hop labels by Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in \emph{label distance vector} to the distance from query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
 
 \begin{algorithm}[H]
   \caption{Label Collecting}\label{algo:blah}
@@ -57,8 +75,6 @@ By collecting the label in $d$ hops from the query vertex, we build the label di
 Given a subspace $\mathcal{B}$, the dominating candidates set of that subspace is the set of vertices that dominate the query vertex $q$ or equal to query vertex $q$ in subspace $\mathcal{B}$, denoted by $\mathit{CAND}_\mathcal{B}$.
 \end{definition}
 
-Property~\ref{ppt:empty_cand}, shows that we can determine whether a subspace $\mathcal{B}$ is a \emph{skyline subspace} by checking the elements the \emph{dominating candidates set} of the subspace $\mathcal{B}$.
-
 \begin{property}
 \label{ppt:empty_cand}
 If $\mathit{CAND}_\mathcal{B} = \emptyset$ or every vertex in $\mathit{CAND}_\mathcal{B}$ is equal to the query vertex $q$ in subspace $\mathcal{B}$, then $q$ is a skyline in subspace $\mathcal{B}$.
@@ -69,6 +85,9 @@ If $\mathit{CAND}_\mathcal{B} = \emptyset$ or every vertex in $\mathit{CAND}_\ma
 $\mathit{CAND}_\mathcal{B}$ contains all the vertices that are not dominated by $q$. If all the vertices in $\mathit{CAND}_\mathcal{B}$ do not dominate $q$ in $\mathcal{B}$ then $q$ must be a skyline in subspace $\mathcal{B}$.
 \end{proof}
 
+Property~\ref{ppt:empty_cand}, shows that we can determine whether a subspace $\mathcal{B}$ is a \emph{skyline subspace} by checking the elements the \emph{dominating candidates set} of the subspace $\mathcal{B}$.
+
+
 \subsection{Dominating Candidates Set of $1$-dimensional subspace}
 
 We will introduce an algorithm to compute the \emph{dominating candidates set} of $1$-dimensional subspace. We will also introduce the concepts of \emph{Strictly Dominating Subspace} and \emph{Equivalence Subspace} which help us prune the unnecessary dominating candidates.
@@ -78,11 +97,11 @@ In a label graph, we say that label distance vector $LV_v=\left\{(l_i, dist_i)\r
 \end{definition}
 
 \begin{definition}[Strictly Dominating Subspace]
-Strictly dominating subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, $u_\mathcal{B}$ strictly dominates query vertex $q_\mathcal{B}$ on subspace $\mathcal{B}$.
+Strictly dominating subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, $u_\mathcal{B}$ strictly dominates query vertex $q_\mathcal{B}$ on subspace $\mathcal{B}$, denoted as $\mathit{SDS}_u$.
 \end{definition}
 
 \begin{definition}[Equivalence Subspace]
-Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, if $u_\mathcal{B}$ equals to the query vertex $q_\mathcal{B}$ in subspace $\mathcal{B}$.
+Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, if $u_\mathcal{B}$ equals to the query vertex $q_\mathcal{B}$ in subspace $\mathcal{B}$, denoted as $\mathit{EQ}_u$.
 \end{definition}
 
 In this algorithm, we start from the vertices with labels and update the label distance vector of those vertices. In the next step, we push all the neighbours of those vertices into the queue and update their label distance vectors and keep going. 
@@ -225,16 +244,19 @@ In this section, we will introduce a way to prune the unnecessary vertices using
 
 \begin{property}
 \label{ppt:prune_cand}
-Pruning a vertex $u$ from $Cand$ that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$, does not affect the result. Therefore, $u$ can be pruned by $v$.
+Pruning a vertex $u$ from $\mathit{CAND}$ that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$, does not affect the result. Therefore, $u$ can be pruned by $v$.
 \end{property}
 
 \begin{proof}
-Let $v$ be a vertex that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. For any subspace $\mathcal{B}$. Case 1: $q$ is a skyline in subspace $\mathcal{B}$. Then $Cand_\mathcal{B}$ does not contain any elements. Pruning $v$ from $Cand$ does not change the result.
-Case 2: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by a vertex $w$, removing $v$ does not change the result. Case 3: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by $u$, then $(\mathcal{B} \subseteq EQS_u \cup SDS_u) \wedge (\mathcal{B} \cap SDS_u \not= \emptyset)$, and there exists such a $v$ that ($SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. And $(\mathcal{B} \subseteq EQS_v \cup SDS_v) \wedge (\mathcal{B} \cap SDS_v \not= \emptyset)$ is satisfied. Therefore $v$ also dominates $q$ and removing $u$ from $CAND$ does not affect the result.
+Let $u$ be a vertex that $\exists v, (SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. For the query vertex $q$ in any subspace $\mathcal{B}$, there are three different cases.\\
+Case 1: $q$ is a skyline in subspace $\mathcal{B}$. Then $\mathit{CAND}_\mathcal{B}$ does not contain any elements. Pruning $u$ from $\mathit{CAND}$ does not change the result.\\
+Case 2: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by a vertex $w$, removing $u$ does not change the result.\\
+Case 3: $q$ is not a skyline in subspace $\mathcal{B}$ and $q$ is dominated by vertex $u$, then $(\mathcal{B} \subseteq EQS_u \cup SDS_u) \wedge (\mathcal{B} \cap SDS_u \not= \emptyset)$, and there exists such a $v$ that ($SDS_u \cup EQS_u \subseteq SDS_v \cup EQS_v) \wedge (SDS_u \subseteq SDS_v)$. And $(\mathcal{B} \subseteq EQS_v \cup SDS_v) \wedge (\mathcal{B} \cap SDS_v \not= \emptyset)$ is satisfied.\\
+Therefore $v$ also dominates $q$ and removing $u$ from $CAND$ does not affect the result.
 \end{proof}
 
-One observation is that the unnecessary points is very likely to be pruned by the neighbours of the query vertex $q$. The intuition is that the neighbours of query vertex $q$ will have larger \emph{Strictly Dominating Set} because the query vertex $q$ collects the labels from its neighbours and the neighbours strictly dominate the query vertex in some of the subsets of those labels.
-By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-hop pruning algorithm. In Algorithm~\ref{algo:pruning_graph}, we compare the $\mathit{SDS}$ and $\mathit{EQS}$ values of neighbours of the query vertex $q$ to all the vertex in the graph in order to prune the some of the candidates in the dominating set.
+One observation is that the unnecessary points is very likely to be pruned by the neighbours of the query vertex $q$. The intuition is that the neighbours of query vertex $q$ will have larger \emph{Strictly Dominating Set} because the query vertex $q$ collects the labels directly from its neighbours and the neighbours strictly dominate the query vertex in subspaces of those labels.
+By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-hop pruning algorithm. In Algorithm~\ref{algo:pruning_graph}, we compare the $\mathit{SDS}$ and $\mathit{EQS}$ values of neighbours of the query vertex $q$ to all the vertex in the graph in order to prune the some of the candidates in the \emph{dominating candidate sets}.
 
 \begin{algorithm}[H]
   \caption{1-hop Pruning}
@@ -308,7 +330,7 @@ By Table~\ref{tab:lv_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be
 
 \subsection{Dominating Candidate Set on Multi-dimensional Subspace}
 
-We generate the dominating candidate set on multi-dimensional subspace by intersecting the smaller dominating candidate set. Since each element in the CAND set of subspace $\mathcal{B}$ has a property \emph{dom} or \emph{eq} representing if that element is dominating query vertex $q$ in subspace $\mathcal{B}$ or equal to the query vertex $q$ in subspace $\mathcal{B}$, we define the CAND set intersection in the following way.
+We generate the dominating candidate set on multi-dimensional subspace by intersecting the smaller dominating candidate sets. Since each element in the CAND set of subspace $\mathcal{B}$ has a property \emph{dom} or \emph{eq} representing if that element is dominating query vertex $q$ in subspace $\mathcal{B}$ or equal to the query vertex $q$ in subspace $\mathcal{B}$, we define the CAND set intersection in the following way.
 
 \begin{definition}[CAND Set Intersection]
 \label{def:cand_intersect}
@@ -325,10 +347,24 @@ For example, consider two dominating candidate sets $\mathit{CAND}_\mathcal{A} =
 Both $\mathit{CAND}_\mathcal{A}$ and $\mathit{CAND}_\mathcal{B}$ contain the element $u$. 
 
 In the other words, vertex $u$ dominates query vertex $z$ in subspace $\mathcal{A}$ and vertex $u$ is equal to query vertex $q$ in subspace $\mathcal{B}$. 
-Therefore, vertex $u$ dominates query vertex $q$ in the subspace $\mathcal{A} \cup \mathcal{B}$ because $u$ is less than $q$ in at least one dimension of $\mathcal{A} \cup \mathcal{B}$ ($u$ dominates $q$ in $\mathcal{A}$). By the Definition~\ref{def:cand_intersect}, we can also get the same answer $\mathit{CAND}_{\mathcal{A} \cup \mathcal{B}}$ = $\mathit{CAND}_\mathcal{A} = \left\{(u, dom)\right\}$.
+Therefore, vertex $u$ dominates query vertex $q$ in the subspace $\mathcal{A} \cup \mathcal{B}$ because $u$ is less than $q$ in at least one dimension of $\mathcal{A} \cup \mathcal{B}$ ($u$ dominates $q$ in $\mathcal{A}$). By the Definition~\ref{def:cand_intersect}, we can also get the same answer $\mathit{CAND}_{\mathcal{A} \cup \mathcal{B}}$ = $\mathit{CAND}_\mathcal{A} \cap \mathit{CAND}_\mathcal{B} = \left\{(u, dom)\right\}$.
 
 
-\subsection{Subspace Eumeration}
+\subsection{Buttom-up Subspace Eumeration}
+
+In this section, we will introduce a buttom-up algorithm to compute the dominating candidate set from low dimensional subspace to high dimensional subspace.
+This algorithm is inspired by the Apriori algorithm for mining Association rules~\cite{agrawal1996fast}. A similar buttom-up algorithm has also been used in enumerating different subspaces in subspace clustering~\cite{agrawal1998automatic}.
+
+\begin{property}
+If in a k-dimensional subspace $\mathcal{B}$, $\mathit{CAND}_\mathcal{B}$ contain a set of vertices $S$, then in any (k-1)-dimensional projection $\mathcal{C}$ of $B$, $\mathit{CAND}_\mathcal{C}$ also contains the set of vertices $S$.
+\end{property}
+
+\begin{proof}
+If a vertex $v$ in $\mathit{CAND}_\mathcal{B}$, where space $\mathcal{B}$ is a k-dimensional subspace, then the vertex $v$ is not greater than query vertex $q$ in any dimension of space $\mathcal{B}$. For any (k-1)-dimensional projection $\mathcal{C}$ of $B$, the vertex $v$ is also is not greater than query vertex $q$ in any dimension of projection $\mathcal{C}$. Therefore, in projection $\mathcal{C}$, $\mathit{CAND}_\mathcal{C}$ contains the vertex $v$.
+\end{proof}
+
+The algorithm compute the dominating candidates set level by level. We already introduce an algorithm to compute the all the dominating candidates set on all $1$-dimensional subspaces. Having all the dominating candidates sets on all $(k-1)$-dimensional subspaces, we are able to construct the possible dominating candidates sets on $k$-dimensional subspaces $C_k = \left\{\mathcal{A} \cup \left\{b\right\} | \mathcal{A} \in L_{k-1} \wedge b \in \bigcup L_{k-1} \wedge b \notin \mathcal{A} \right\}$.
+
 \begin{algorithm}[H]
   \caption{Subspace Eumeration}\label{algo:blah}
     \begin{algorithmic}[1]
@@ -344,11 +380,13 @@ Therefore, vertex $u$ dominates query vertex $q$ in the subspace $\mathcal{A} \c
         
             \STATE $C_k = \left\{\mathcal{A} \cup \left\{b\right\} | \mathcal{A} \in L_{k-1} \wedge b \in \bigcup L_{k-1} \wedge b \notin \mathcal{A} \right\}$
             
-            \FORALL{(k-1)-subsets $s$ of $c$ do}
-                \IF {$s \notin L_{k-1}$}
-                    \STATE delete $c$ from $C_k$
-                    
-                \ENDIF
+            \FORALL{$\mathcal{C}$ in $C_k$}
+                \FORALL{(k-1)-projection $\mathcal{S}$ of $\mathcal{C}$ do}
+                    \IF {$\mathcal{S} \notin L_{k-1}$}
+                        \STATE delete $\mathcal{C}$ from $C_k$
+                        
+                    \ENDIF
+                \ENDFOR
             \ENDFOR
             
             \FORALL{$\mathcal{C}$ in $C_k$}
@@ -362,3 +400,24 @@ Therefore, vertex $u$ dominates query vertex $q$ in the subspace $\mathcal{A} \c
         \RETURN SUB
   \end{algorithmic}
 \end{algorithm}
+
+We still consider the LinkedIn network represented by Table~\ref{tab:skill_sets} and Figure~\ref{fig:graph} as our running example. By running the \emph{set enumeration} algorithm we get the dominating candidate set in all subspaces in Table~\ref{tab:sub_dom_cand_pruned}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+    Subspaces & Dominating Candidates & Generated By \\ \hline
+    A         & $(u, dom)$   &              \\ \hline
+    B         & $(w, dom)$  &              \\ \hline
+    C         & $(w, dom)$  &              \\ \hline
+    AB        & $\emptyset$           & $A \cap B$   \\ \hline
+    AC        & $\emptyset$           & $A \cap C$   \\ \hline
+    BC        & $(w, dom)$            & $B \cap C$   \\ \hline
+    \end{tabular}
+    \caption{\label{font-table} dominating candidates in all subspaces}
+    \label{tab:sub_dom_cand_pruned}
+\end{table}
+
+As shown in Table~\ref{tab:sub_dom_cand_pruned}, $\mathit{CAND}_{BC}$ is computed by $\mathit{CAND}_{B} \cap \mathit{CAND}_{C}$, $\mathit{CAND}_{AB}$ is computed by $\mathit{CAND}_{A} \cap \mathit{CAND}_{B}$ and $\mathit{CAND}_{AC}$ is computed by $\mathit{CAND}_{A} \cap \mathit{CAND}_{C}$. In this example, $\mathit{CAND}_{BC} = \mathit{CAND}_B \cap \mathit{CAND}_C = \left\{(w, dom)\right\}$, $\mathit{CAND}_{AB} = \emptyset$ and $\mathit{CAND}_{AC} = \emptyset$.
+The query vertex $z$ is a skyline on subspaces $AB$ and $BC$ because their dominating candidates sets are all empty.

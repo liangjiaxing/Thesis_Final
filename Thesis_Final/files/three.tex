@@ -18,12 +18,12 @@
 \chapter{Problem Definition}
 \label{ch:prob-def}
 
-The traditional skyline query problem is to find those skyline points which are not dominated by any other points. In this thesis, we consider a variant of this problem. We consider a set of objects $S$ in an $n$-dimensional space and a query object $u$ in this space. The object $u$ may be a skyline point in some subspaces. We call these subspaces \emph{skyline subspaces}. The skyline subspaces query is to find out the \emph{skyline subspaces}. In this chapter, we will introduce the general skyline subspace queries and its variant in two different settings: skyline queries on graph and spatial skyline queries.
+The traditional skyline query problem is to find the skyline points which are not dominated by any other points. In this thesis, we consider a variant of this problem. We consider a set of objects $S$ in an $n$-dimensional space and a query object $u$ in this space. The object $u$ may be a skyline point in some subspaces. We call these subspaces \emph{skyline subspaces}. The skyline subspaces query is to find out the \emph{skyline subspaces}. In this chapter, we will introduce the general skyline subspace queries and its applications in two different settings: skyline queries on graph and spatial skyline queries.
 
 \section{General Skyline Subspace Queries}
 
 \begin{definition}[Skyline]
-For objects $u, v \in S$, $u$ dominates $v$ if and only if for all i, $(1 \leq i \leq n)$, $u.D_i \leq v.D_i$ and there exists a $j$ ($1 \leq j \leq n$) such that $u.D_j < v.D_j$. Object $u$ is a \emph{skyline object} if $u$ is not dominated by and other objects in $S$.
+For objects $u, v \in S$, $u$ dominates $v$ if and only if for all i, $(1 \leq i \leq n)$, $u.D_i \leq v.D_i$ and there exists a $j$ ($1 \leq j \leq n$) such that $u.D_j < v.D_j$. Object $u$ is a \emph{skyline object} if $u$ is not dominated by any other objects in $S$.
 \end{definition}
 
 \begin{definition}[Skyline Subspace]
@@ -33,7 +33,7 @@ For an object $u$ in space $\mathcal{D}$,
 the \emph{projection} of $u$ in subspace $\mathcal{B}$, denoted by $u_\mathcal{B}$
 , is a $|\mathcal{B}|$-tuple$(u.D_{i_1},\dots,u.D_{i_{|\mathcal{B}|}})$,
 where $D_{i_1},\dots,D_{i_{|\mathcal{B}|}} \in \mathcal{B}$.
-If $u_\mathcal{B}$ is not dominated by any $w_\mathcal{B}$ in $\mathcal{B}$ where $w \in S$, then $\mathcal{B}$ is a \emph{skyline subspace}.
+If $u_\mathcal{B}$ is not dominated by any $w_\mathcal{B}$ in subspace $\mathcal{B}$ where $w \in S$, then $\mathcal{B}$ is a \emph{skyline subspace}.
 \end{definition}
 
 \begin{definition}[Minimal Skyline Subspace]
@@ -63,7 +63,7 @@ In subspace $(A, C)$, $y_{(A, C)} = (3, 3), z_{(A, C)} = (2, 1)$ and $y_{(A, C)}
 $(A, B, C)$ is a skyline subspace but it not a minimal skyline subspace because it is a proper superset of one of the skyline subspace $(A, B)$.
 
 \section{Skyline Subspace Queries On Graph}
-In this section, we introduce the skyline subspace queries on the graph setting. First, we will introduce a kind of graph setting such that each vertex in the graph contains several labels, denoted as \emph{label graph}. We are interested in the distance between each vertex and each label. The set of distances between a vertex and all labels is represented by the label distance vector of that vertex. The following shows the definitions of \emph{label graph} and \emph{label distance vector}.
+In this section, we introduce the skyline subspace queries on the graph setting. First, we will introduce a kind of graph such that each vertex in the graph contains several labels, denoted as \emph{label graph}. We are interested in the distance between each vertex and each label. The set of distances between a vertex and all labels is represented by the \emph{label distance vector} of that vertex. The following shows the definitions of \emph{label graph} and \emph{label distance vector}.
 
 \begin{definition}[Label Graph]
 A label graph is defined as a undirected and unweighted graph $G = (V, E, L)$, with each vertex $v \in V$ contains a set of labels $L_v \subseteq \mathcal{L}$. $\mathcal{L}$ is the universal set of labels.
@@ -97,8 +97,8 @@ Given a label graph $G = (V, E, L)$, a query vertex $q$ and a number $D$, the sk
     \label{fig:graph}
 \end{figure}
 
-We use an example on LinkedIn to illustrate the skyline subspace queries on graph. In Figure~\ref{fig:graph}, a graph is represented by the LinkedIn connection network. Table~\ref{tab:skill_sets} shows the skills of each person of the LinkedIn network which can be treated as vertices with labels. 
-Both of them together represent a \emph{label graph}. In Table~\ref{tab:skill_sets}, it shows that vertex $u$ has a skill of Accounting, vertex $w$ has skills of Bioinformatics and C++ and vertex $y$ has a skill of Bioinformatics. In this case, we want to compute the subspace skyline queries in $3$ hops.
+Consider an example on LinkedIn to illustrate the skyline subspace queries on graph. In Figure~\ref{fig:graph}, a graph is represented by the LinkedIn connection network. Table~\ref{tab:skill_sets} shows the skills of each person of the LinkedIn network which can be treated as vertices with labels. 
+Both of them together represent a \emph{label graph}. In Table~\ref{tab:skill_sets}, it shows that vertex $u$ has a skill of Accounting, vertex $w$ has skills of Bioinformatics and C++ and vertex $y$ has a skill of Bioinformatics. In this example, we want to compute the subspace skyline queries in $3$ hops.
 
 \begin{table}[h]
     \centering
@@ -116,7 +116,7 @@ Both of them together represent a \emph{label graph}. In Table~\ref{tab:skill_se
     \label{tab:distances_graph}
 \end{table}
 
-In Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bioforinformatics and C++ respectively. The table shows the distances between each person and each skill. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Because C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{label vector} of a vertex.
+In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bioforinformatics and C++ respectively. The table shows the distances between each person and each skill. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{label vector} of a vertex.
 In this example, if the query point is $z$, the mininmal skyline subspaces of $z$ are $(A, B)$ and $(A, C)$ because there is no such a $w \in S$ that $w_{(A,B)}$ dominates $z_{(A,B)}$ or $w_{(A,C)}$ dominates $z_{(A,C)}$.
 
 
@@ -171,6 +171,6 @@ Table~\ref{tab:spot_category} shows different spots with different categories. F
     \label{tab:distances_spatial}
 \end{table}
 
-In Table~\ref{tab:distances_spatial}, $A$, $B$ and $C$ stand for Asian Food, Breakfast and Cafes respectively. The table shows the distances between each spot and each categories. In this example, if $z$ is the query point, then the minimal skyline subspaces are $(A, B)$ and $(A, C)$.
+In the header row of Table~\ref{tab:distances_spatial}, $A$, $B$ and $C$ stand for Asian Food, Breakfast and Cafes respectively. The table shows the distances between each spot and each categories. In this example, if $z$ is the query point, then the minimal skyline subspaces are $(A, B)$ and $(A, C)$.
 
 
