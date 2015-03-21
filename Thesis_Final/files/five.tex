@@ -21,28 +21,68 @@
 In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries. In the computation of spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph}. However, in this chapter we introduce a different method to prune the unnecessary \emph{dominating candidates} based on some geometric property of skyline subspace.
 
 \section{Label Collecting in Radius $D$}
-
-We assume that the data points are indexed in R-tree. In R-tree we can get all points in a certain rectangle efficiently. By indexing the data points in R-tree, if we want access the neighbouring points of certain query point $q$, we can query the square with center $q$ in R-tree without accessing the whole set of data points. We compute query vertex $q$'s label distance vector $LV_q$ by checking the labels of the points in rectangle with upper-left corner point $(p.x - D, p.y - D)$ and lower-right corner point $(p.x + D, p.y + D)$. Then we collect the labels within distance $D$ as the label distance vector $LV_q$.
+We assume that the data points are indexed in R-tree. In R-tree we can get all points in a certain rectangle efficiently. By indexing the data points in R-tree, if we want access the neighbouring points of certain query point $q$, we can query the square with center $q$ in R-tree without accessing the whole set of data points. We compute query point $q$'s label distance vector $LV_q$ by checking the labels of the points in rectangle with upper-left corner point $(p.x - D, p.y - D)$ and lower-right corner point $(p.x + D, p.y + D)$. Then we collect the labels within distance $D$ as the label distance vector $LV_q$.
 
 \section{Dominating Candidates in Spatial Subspace Skyline}
+
+In this section, we will show an algorithm to compute the $\mathit{CAND}$ of all $1$-dimensional subspaces. We enumerate every point $v$ in the data set and build the label distance vector $LV_v$ of the point $v$ by querying square centering in point $v$.
 
 \begin{algorithm}[H]
   \caption{Dominating Candidates}\label{algo:blah}
   \begin{algorithmic}[1]
   \show\LOOP
-    \REQUIRE R-tree $R$ that indexes the spatial points and label distance vector $LV_q$ of query vertex $q$.
-    \ENSURE Dominating Candidates $CAND$ of $1$-dimension subspace;
+    \REQUIRE R-tree $R$ that indexes the spatial points and label distance vector $LV_q$ of query point $q$;
+    \ENSURE Dominating Candidates Set $\mathit{CAND}$ of all $1$-dimensional subspaces, $\mathit{SDS}$ and $\mathit{EQS}$ of all points;
     \FORALL {$\left(l, dist\right)$ in $LV_q$}
         \FORALL {point $p$ contains label $l$}
-            \STATE look at the points in rectangle $rec = (p.x-dist, p.y-dist, p.x+dist, p.y+dist)$
-            \STATE push all the points in $rec$ in distance $dist$ to $CAND_l$
+            \STATE $rec = R.query(p.x-dist, p.y-dist, p.x+dist, p.y+dist)$
+            \FORALL {point $u$ in $rec$}
+                \STATE $d$ = $distance(v, p)$
+                \IF {$d < dist$}
+                    \STATE add$(u, dom)$ to $\mathit{CAND}_l$
+                    \STATE add$l$ to $\mathit{SDS}_u$
+                \ENDIF
+                \IF {$d == dist$}
+                    \STATE add$(u, eq)$ to $\mathit{CAND}_l$
+                    \STATE add$l$ to $\mathit{EQS}_u$
+                \ENDIF
+            \ENDFOR
+            
         \ENDFOR
     \ENDFOR
   \end{algorithmic}
 \end{algorithm}
 
-In this algorithm, we 
+\section{Same Region Pruning}
+After getting the list of dominating candidate sets and the $\mathit{SDS}$ and $\mathit{EQS}$ of all points, we can prune some unnecessary candidate points of the dominating candidate sets. By Property~\ref{ppt:prune_cand}, we can see that if two points $u$ and $v$ have the same $\mathit{SDS}_u$ and $\mathit{SDS}_v$ and they have the same $\mathit{EQS}_u$ and $\mathit{EQS}_v$, then one of the point $u$ and $v$ can be pruned by the other.
 
+We will show an example of how the spatial points can be pruned from the dominating candidate set. In Figure~\ref{fig:circle_example}, point $q$ represents the query point, point $A$ represents a point with label $A$ and point $B$ represents a point with label $B$. $r_{A}$ is the distance between query point $q$ and label $A$ and $r_{B}$ is the distance between query point $q$ and label $B$. The blue points ($v_1$ and $v_2$) dominate the query point $q$ in the $1$-dimensional subspace $A$. The green points ($v_5$ and $v_6$) dominate the query point $q$ in subspace $B$. The red points ($v_3$ and $v_4$) dominate the query point $q$ in subspace $(A, B)$. In this example, the points with the same colors ($v_1$ and $v_2$, $v_3$ and $v_4$, $v_5$ and $v_6$) have the same \emph{strictly dominating subspace} $\mathit{SDS}$ and the same \emph{equivalence subspace} $\mathit{EQS}$. Therefore, we can keep one of them of each color as a representative and prune the others from the \emph{dominating candidate set}.
+
+
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=0.5\textwidth]{figs/Circle_Spatial_Example}
+    \caption{We can pick one candidate for each region (with same color) and eliminate the others.}
+    \label{fig:circle_example}
+\end{figure}
+
+
+\begin{algorithm}[H]
+  \caption{Same Region Pruning}\label{algo:blah}
+  \begin{algorithmic}[1]
+  \show\LOOP
+    \REQUIRE Dominating Candidates $CAND$, query vertex $q$, graph $G=(V, E)$;
+    \ENSURE Pruned Dominating Candidates $CAND$;
+    \FORALL {$(l, dist)$ in $LV_q$}
+        \FORALL {$u$ in $CAND_l$}
+            \IF {$u$ is in the same region as other points}
+                \STATE delete $u$ from $CAND_l$
+            \ENDIF
+        \ENDFOR
+    \ENDFOR
+  \end{algorithmic}
+\end{algorithm}
+And we will use the same set-enumeration method to compute dominating candidates to get the skyline subspace.
 
 
 
