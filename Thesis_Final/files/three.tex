@@ -44,7 +44,7 @@ A \emph{skyline subspace} $\mathcal{B}$ is a \emph{minimal skyline subspace} if 
 Given a set of objects $S$ in an $n$-dimensional space $\mathcal{D} = (D_1,\dots,D_n)$ and a query object $u = (u.D_1,\dots,u.D_n)$ in space $\mathcal{D} = (D_1,\dots,D_n)$. The skyline subspaces query is to find all the \emph{minimal skyline subspaces}.
 \end{definition}
 
-\begin{table}[t]
+\begin{table}[h]
     \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
@@ -53,8 +53,8 @@ Given a set of objects $S$ in an $n$-dimensional space $\mathcal{D} = (D_1,\dots
     $y$      & 3 & 3 & 3 \\ \hline
     $z$      & 2 & 4 & 1 \\ \hline
     \end{tabular}
-    \caption{\label{font-table} A set of objects as our running example }
-    \label{tab:objects_example}
+    \caption{\label{tab:objects_example} A set of objects as our running example }
+    
 \end{table}
 
 In Table~\ref{tab:objects_example}, if the query point is $y$, the minimal skyline subspaces of $y$ are $(A, B)$ and $(B, C)$. In subspace $(A, B)$, $x_{(A, B)} = (4, 2), y_{(A, B)} = (3, 3), z_{(A, B)} = (2, 4)$ and $y_{(A, B)}$ is not dominated by $x_{(A, B)}$ or $z_{(A, B)}$. 
@@ -86,15 +86,14 @@ Given a label graph $G = (V, E, L)$, a query vertex $q$ and a number $D$, the sk
     Bioinformatics & $y, w$  \\ \hline
     C++            & $w$     \\ \hline
     \end{tabular}
-    \caption{\label{font-table}an example of skill sets on LinkedIn profile}
-    \textbf{\label{tab:skill_sets}\label{tab:skill_sets}}
+    \caption{\label{tab:skill_sets}an example of skill sets on LinkedIn profile}
 \end{table}
     
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.3\textwidth]{figs/graph_example}
-    \caption{\label{font-figure}an example of LinkedIn network}
-    \label{fig:graph}
+    \caption{\label{fig:graph}an example of LinkedIn network}
+    
 \end{figure}
 
 Consider an example on LinkedIn to illustrate the skyline subspace queries on graph. In Figure~\ref{fig:graph}, a graph is represented by the LinkedIn connection network. Table~\ref{tab:skill_sets} shows the skills of each person of the LinkedIn network which can be treated as vertices with labels. 
@@ -112,8 +111,8 @@ Both of them together represent a \emph{label graph}. In Table~\ref{tab:skill_se
         $y$       & 2 & 0 & 1 \\ \hline
         $z$       & 1 & 1 & 2 \\ \hline
     \end{tabular}
-    \caption{\label{font-table} distances between each person and each skill}
-    \label{tab:distances_graph}
+    \caption{\label{tab:distances_graph} distances between each person and each skill}
+    
 \end{table}
 
 In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bioforinformatics and C++ respectively. The table shows the distances between each person and each skill. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{label vector} of a vertex.
@@ -141,16 +140,16 @@ Given a set of points $P$ and a query point $q$, the skyline subspaces query on 
     Breakfast      & $y, w$  \\ \hline
     Cafes          & $w$     \\ \hline
     \end{tabular}
-    \caption{\label{font-table} an example of spots with categories}
-    \label{tab:spot_category}
+    \caption{\label{tab:spot_category} an example of spots with categories}
+    
 \end{table}
 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{figs/spatial_figure}
-    \caption{\label{font-figure}an example of spatial locations of spots}
-    \label{fig:spatial_map}
+    \caption{\label{fig:spatial_map}an example of spatial locations of spots}
+    
 \end{figure}
 
 Table~\ref{tab:spot_category} shows different spots with different categories. Figure~\ref{fig:spatial_map} shows the geometric locations of all spots. We consider each spot as a point in $2$-dimensional space and the categories the spot contains as its labels.
@@ -167,8 +166,7 @@ Table~\ref{tab:spot_category} shows different spots with different categories. F
     $y$       & $\sqrt{5}$ & 0 & 1 \\ \hline
     $z$       & $\sqrt{2}$ & 1 & 2 \\ \hline
     \end{tabular}
-    \caption{\label{font-table} distances between each spot and each categories}
-    \label{tab:distances_spatial}
+    \caption{\label{tab:distances_spatial} distances between each spot and each categories}
 \end{table}
 
 In the header row of Table~\ref{tab:distances_spatial}, $A$, $B$ and $C$ stand for Asian Food, Breakfast and Cafes respectively. The table shows the distances between each spot and each categories. In this example, if $z$ is the query point, then the minimal skyline subspaces are $(A, B)$ and $(A, C)$.

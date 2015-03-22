@@ -34,8 +34,7 @@ $\mathit{CAND}_\mathcal{B}$ & dominating candidate set of subspace $\mathcal{B}$
 $(u, dom)$                  & element in dominating candidate set. $(u, dom) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$. \\ \hline
 $(u, eq)$                   & element in dominating candidate set. $(u, eq) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$.  \\ \hline
 \end{tabular}
-    \caption{\label{font-table}Symbols Used in the Pruning-based Method on Graph}
-    \label{tab:symbol_graph}
+    \caption{\label{tab:symbol_graph}Symbols Used in the Pruning-based Method on Graph}
 \end{table}
 
 \section{BFS Label Collecting}
@@ -43,7 +42,8 @@ $(u, eq)$                   & element in dominating candidate set. $(u, eq) \in 
 We collect the d-hop labels by Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in \emph{label distance vector} to the distance from query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
 
 \begin{algorithm}[H]
-  \caption{Label Collecting}\label{algo:blah}
+  \caption{Label Collecting}
+  \label{algo:graph_collect}
   \begin{algorithmic}[1]
   \show\LOOP
     \REQUIRE A graph $G=(V,E)$, a list of label sets $F=\left\{L_v | v \in V\right\}$, the label sets of all vertices, a query vertex $q$, the number of hops $d$;
@@ -67,7 +67,7 @@ We collect the d-hop labels by Breadth-First-Search and get the \emph{label dist
 \end{algorithm}
 
 \section{Dominating Candidates Set}
-\label{sec:bfs-collect}
+\label{sec:dom-cand}
 
 By collecting the label in $d$ hops from the query vertex, we build the label distance vector of our query vertex. To avoid computing the label distance vectors of all other vertices to find the skyline subspaces, we define a concept of dominating candidates set to compute the skyline subspaces.
 
@@ -106,7 +106,8 @@ Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a ver
 
 In this algorithm, we start from the vertices with labels and update the label distance vector of those vertices. In the next step, we push all the neighbours of those vertices into the queue and update their label distance vectors and keep going. 
 \begin{algorithm}[h]
-  \caption{Dominating Candidates Set On $1$-Dimensional Subspace}\label{algo:blah}
+  \caption{Dominating Candidates Set On $1$-Dimensional Subspace}
+  \label{algo:dom_cand_graph}
   \begin{algorithmic}[1]
   \show\LOOP
     \REQUIRE A graph $G=(V,E)$ and the label vector $LV_q$ of the query vertex $q$;
@@ -142,8 +143,8 @@ In this subsection, we will give an example of how the algorithm of finding \emp
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{figs/graph_example_1}
-    \caption{\label{font-figure}label distance vector on the first iteration}
-    \label{fig:cand_step1}
+    \caption{\label{fig:cand_step1}label distance vector on the first iteration}
+    
 \end{figure}
 
 \begin{table}[H]
@@ -157,8 +158,8 @@ In this subsection, we will give an example of how the algorithm of finding \emp
     x & $\emptyset$ & $\emptyset$ \\ \hline
     y & B           & $\emptyset$ \\ \hline
     \end{tabular}
-    \caption{\label{font-table}SDS and EQS of each vertex on the first iteration}
-    \label{tab:sds_step1}
+    \caption{\label{tab:sds_step1}SDS and EQS of each vertex on the first iteration}
+    
 \end{table}
 
 \begin{table}[H]
@@ -171,8 +172,8 @@ In this subsection, we will give an example of how the algorithm of finding \emp
     B         & $(w, dom), (y, dom)$            \\ \hline
     C         & $(w, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{font-table}dominating candidates set of each $1$-dimensional subspace on the first iteration}
-    \label{tab:cand_set_step1}
+    \caption{\label{tab:cand_set_step1}dominating candidates set of each $1$-dimensional subspace on the first iteration}
+    
 \end{table}
 
 Consider the LinkedIn network represented by Table~\ref{tab:skill_sets} and Figure~\ref{fig:graph} as our running example. Again, we take $z$ as the query vertex. The label distance vectors of all vertices are originally initialized as $\infty$. As shown in Figure~\ref{fig:cand_step1}, we start from the vertices with labels and mark the corresponding entries of the label distance vectors of those vertices as $0$. 
@@ -182,8 +183,8 @@ In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{figs/graph_example_2}
-    \caption{\label{font-figure}label distance vector on second iteration}
-    \label{fig:cand_step2}
+    \caption{\label{fig:cand_step2}label distance vector on second iteration}
+    
 \end{figure}
 
 \begin{table}[H]
@@ -197,8 +198,8 @@ In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace 
     x & $\emptyset$ & $\emptyset$ \\ \hline
     y & BC          & $\emptyset$ \\ \hline
     \end{tabular}
-    \caption{\label{font-table}SDS and EQS of each vertex on the second iteration}
-    \label{tab:sds_step2}
+    \caption{\label{tab:sds_step2}SDS and EQS of each vertex on the second iteration}
+    
 \end{table}
 
 \begin{table}[H]
@@ -211,8 +212,8 @@ In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace 
     B         & $(w, dom), (y, dom)$            \\ \hline
     C         & $(w, dom), (y, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{font-table}dominating candidates set of each $1$-dimensional subspace on the second iteration}
-    \label{tab:cand_set_step2}
+    \caption{\label{tab:cand_set_step2}dominating candidates set of each $1$-dimensional subspace on the second iteration}
+    
 \end{table}
 
 
@@ -232,8 +233,7 @@ After $2$ iterations, the process of building the  dominating candidate sets of 
     $y$       & $\infty$ & 0 & 1 \\ \hline
     $z$       & 1 & 1 & 2 \\ \hline
     \end{tabular}
-    \caption{\label{font-table} distances between each person and each skill in 2-hop}
-    \label{tab:d_hops_distance}
+    \caption{\label{tab:d_hops_distance} distances between each person and each skill in 2-hop}
 \end{table}
 
 Although some information is still missing (equal to $\infty$), we are still able to get the mininmal skyline subspaces of $z$: $(A, B)$ and $(A, C)$ from the Table~\ref{tab:d_hops_distance}.
@@ -291,8 +291,8 @@ By the Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-
     $x$ & $\emptyset$ & $\emptyset$ & $\emptyset$    \\ \hline
     $y$ & BC          & $\emptyset$ & BC             \\ \hline
     \end{tabular}
-    \caption{\label{font-table} the $SDS$ and $EQS$ of each vertex}
-    \label{tab:SDS_EQS}
+    \caption{\label{tab:SDS_EQS}the $SDS$ and $EQS$ of each vertex}
+    
 \end{table}
 
 Table~\ref{tab:SDS_EQS} shows the $SDS$ and $EQS$ of all vertices on the graph. We can prune the unnecessary vertices from the \emph{dominating candidate set} according this table. By Property~\ref{ppt:prune_cand}, vertex $v$ can be pruned by $v$ and vertex $w$ and $y$ can be pruned by each other.
@@ -309,8 +309,8 @@ Table~\ref{tab:SDS_EQS} shows the $SDS$ and $EQS$ of all vertices on the graph. 
     $y$       & $\infty$ & 0 & 1 & \\ \hline
     $z$       & 1 & 1 & 2 &\\ \hline
     \end{tabular}
-    \caption{\label{font-table} label distance vector after 1-hop pruning}
-    \label{tab:lv_pruned}
+    \caption{\label{tab:lv_pruned} label distance vector after 1-hop pruning}
+    
 \end{table}
 
 \begin{table}[h]
@@ -322,8 +322,8 @@ Table~\ref{tab:SDS_EQS} shows the $SDS$ and $EQS$ of all vertices on the graph. 
     B         & $(y, dom)$            \\ \hline
     C         & $(y, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{font-table} Pruned dominating candidate set of $1$-dimensional subspace}
-    \label{tab:dom_cand_pruned}
+    \caption{\label{tab:dom_cand_pruned} Pruned dominating candidate set of $1$-dimensional subspace}
+    
 \end{table}
 
 By Table~\ref{tab:lv_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:lv_pruned} show the vertices to be pruned and their label distance vectors. Although $w$ seems to be a better vertex (because $w$ dominates $y$),  the vertex $w$ is pruned by the vertex $y$ because both vertex $y$ and vertex $w$ have the same \emph{strictly dominating subspace} and \emph{equivalence subspace} and $y$ is a $1$-hop neighbour of the query vertex $q$. Table~\ref{tab:dom_cand_pruned} shows the dominating candidates set of $1$-dimensional subspace after the $1$-hop neighbour pruning.
@@ -415,8 +415,8 @@ We still consider the LinkedIn network represented by Table~\ref{tab:skill_sets}
     AC        & $\emptyset$           & $A \cap C$   \\ \hline
     BC        & $(w, dom)$            & $B \cap C$   \\ \hline
     \end{tabular}
-    \caption{\label{font-table} dominating candidates in all subspaces}
-    \label{tab:sub_dom_cand_pruned}
+    \caption{\label{tab:sub_dom_cand_pruned} dominating candidates in all subspaces}
+    
 \end{table}
 
 As shown in Table~\ref{tab:sub_dom_cand_pruned}, $\mathit{CAND}_{BC}$ is computed by $\mathit{CAND}_{B} \cap \mathit{CAND}_{C}$, $\mathit{CAND}_{AB}$ is computed by $\mathit{CAND}_{A} \cap \mathit{CAND}_{B}$ and $\mathit{CAND}_{AC}$ is computed by $\mathit{CAND}_{A} \cap \mathit{CAND}_{C}$. In this example, $\mathit{CAND}_{BC} = \mathit{CAND}_B \cap \mathit{CAND}_C = \left\{(w, dom)\right\}$, $\mathit{CAND}_{AB} = \emptyset$ and $\mathit{CAND}_{AC} = \emptyset$.
