@@ -23,6 +23,7 @@ We implement our algorithms using C++. We use Microsoft Visual Studio 2010 to co
 
 \section{Experiments of Skyline Subspace Query on Graph}
 
+In this section, we will introduce the empirical study on skyline subspace query on graph.
 Using the model of Kronecker graph provided by~\cite{leskovec2005realistic}, we generated different sizes of graph.
 According to~\cite{leskovec2005realistic}, Kronecker graph has the following real world network properties:
 heavy tails for the in-degree and out-degree distribution;
@@ -35,38 +36,73 @@ We use the MATLAB code from graph500 (\url{http://www.graph500.org/specification
 0.24 & 0.22
 \end{bmatrix}
 \end{equation}
-with edge factor $2$ which is the expected average degree of the vertices. The label is generated in Pareto distribution which is a Power Law Distribution. We use the Pareto function from a python package numpy to generate the label information of the vertices. Figure~\ref{fig:exp:kronecker} shows running comparison between the algorithms with and without pruning.
+with edge factor $2$ which is the expected average degree of the vertices. The label is generated in Pareto distribution which is a Power Law Distribution. We use the Pareto function from a python package numpy to generate the label information of the vertices. We randomly generated 1000 different labels for these graph. Our algorithm run skyline subspace queries in $2$-hops neighbourhood. Figure~\ref{fig:exp:kronecker} shows running time of millisecond per query comparison between the algorithms with and without pruning.
 
 \begin{figure}[h]
     \centering
       \includegraphics[width=0.7\textwidth]{figs/kronecker}
-    \caption{\label{fig:exp:kronecker}Blue: Running time with pruning, Green: Running time without pruning}
+    \caption{\label{fig:exp:kronecker}Kronecker graph with 1000 different labels}
 \end{figure}
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    data sets        & number of nodes & number of edges & number of different labels \\ \hline
+    Facebook Network & 4039            & 88234           & 20                         \\ \hline
+    DBLP Network     & 906505          & 1656732         & 1000                       \\ \hline
+    \end{tabular}
+    \label{tab:exp:fb_dblp}
+\end{table}
 
+We also do some empirical study on real world data sets. We download a subset of Facebook network from \emph{Stanford Network Analysis Project} (\url{http://snap.stanford.edu/data/egonets-Facebook.html}). In Figure~\ref{fig:exp:fb}, we show the running time of our program with different numbers of different labels in total. The labels are randomly generated.
 
 \begin{figure}[h]
     \centering
       \includegraphics[width=0.7\textwidth]{figs/FB}
-    \caption{o: Running time with pruning, x: Running time without pruning}
+    \caption{\label{fig:exp:fb}Facebook network}
 \end{figure}
 
-Facebook data set:\\
-Graph: 4039 Nodes, 88234 Edges.\\
-Label: 20 Labels in total.\\
-    
-\begin{figure}[h]
+
+We use the DBLP dataset from $arnetminer$ (\url{http://arnetminer.org/billboard/citation}). We add an edge between author $X$ and author $Y$ if and only if $X$ is one of the top ten co-author of $Y$ and $Y$ is one of the top ten co-author of $X$. We choose the top one thousand most frequent conferences as the labels of the vertices. If an author publishes more than five papers in a conference then we add the corresponding label to that conference to the corresponding label to that vertices. Figure~\ref{fig:exp:dblp} shows the running time on DBLP network.
+
+
+\begin{figure}[H]
     \centering
       \includegraphics[width=0.7\textwidth]{figs/DBLP}
-    \caption{o: Running time with pruning, x: Running time without pruning}
-    x-axis: number of labels.
+    \caption{\label{fig:exp:dblp}DBLP network}
 \end{figure}
-
-DBLP Data Set:\\
-Graph: 96505 Nodes, 1656732 Edges.\\
-    
-
 
 \section{Experiments of Spatial Skyline Subspace Query}
 
+In this section, we will introduce the empirical study on spatial skyline subspace query. We use the Yelp Academic Dataset (\url{https://www.yelp.ca/academic_dataset}) to evaluate our algorithm. Yelp Academic Dataset provides 13490 different business spot. Each business spot consists of its longitude and latitude information on the earth. We use the longitude and latitude information of the business spot as its spatial information. The business spot consists of a set of categories information, neighbourhood information and university information. We use those information as the labels of the business spot. Each business spot also contain a stars rating.
 
+In Figure~\ref{fig:exp:yelp20l}, we choose the top 20 most popular categories as the labels of the business spot and we compare the running time of the program with pruning and the program without pruning in the sense of different radius.
+
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=0.7\textwidth]{figs/YelpTop20Labels}
+    \caption{\label{fig:exp:yelp20l}Yelp Data Set with Top 20 most popular categories}
+\end{figure}
+
+In Figure~\ref{fig:exp:yelp300l}, we choose the top $210$ most popular categories as the labels of the business spot. We assign a category to a business spot as a label if the business has the high stars rating among all the business with that category. We also assign the $90$ different neighbourhood and university information to the business spot as the labels. There is 300 different labels in total.
+
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=0.7\textwidth]{figs/Yelp300Labels}
+    \caption{\label{fig:exp:yelp300l}Yelp Data Set with 300 different labels}
+\end{figure}
+
+We also evaluate the running times of the algorithm on data with the radius fixed but the number of labels is different. Figure~\ref{fig:exp:yelp10k} shows the running times of a query in average of various numbers of labels.
+
+\begin{figure}[h]
+    \centering
+      \includegraphics[width=0.7\textwidth]{figs/Yelp10Kmeters}
+    \caption{\label{fig:exp:yelp10k}Yelp Data Set in 10000 meters neighbourhood}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+        \includegraphics[width=0.7\textwidth]{figs/Spatial}
+    \caption{\label{fig:exp:spatial}Spatial Synthetic Dataset}
+\end{figure}
