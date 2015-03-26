@@ -25,7 +25,7 @@ We implement our algorithms using C++. We use Microsoft Visual Studio 2010 to co
 
 In this section, we will introduce the empirical study on skyline subspace query on graph.
 Using the model of Kronecker graph provided by~\cite{leskovec2005realistic}, we generated different sizes of graph.
-According to~\cite{leskovec2005realistic}, Kronecker graph has the following real world network properties:
+According to~\cite{leskovec2005realistic}, Kronecker graph has several real world network properties:
 heavy tails for the in-degree and out-degree distribution;
 heavy tails for the eigenvalues and eigenvectors;
 small diameters; and the ``Densification Power Law" (DPL).
@@ -85,7 +85,7 @@ In Figure~\ref{fig:exp:yelp20l}, we choose the top 20 most popular categories as
     \caption{\label{fig:exp:yelp20l}Yelp Data Set with Top 20 most popular categories}
 \end{figure}
 
-In Figure~\ref{fig:exp:yelp300l}, we choose the top $210$ most popular categories as the labels of the business spot. We assign a category to a business spot as a label if the business has the high stars rating among all the business with that category. We also assign the $90$ different neighbourhood and university information to the business spot as the labels. There is 300 different labels in total.
+In Figure~\ref{fig:exp:yelp300l}, we choose the top $210$ most popular categories as the labels of the business spot. We assign a category to a business spot as a label if the business has the high stars rating among all the business with that category. We also assign the $90$ different neighbourhood and university information to the business spot as the labels. There is 300 different labels in total. Table~\ref{tab:exp:radius} shows the average number of business spots in different radii in yelp data set.
 
 \begin{figure}[h]
     \centering
@@ -93,7 +93,20 @@ In Figure~\ref{fig:exp:yelp300l}, we choose the top $210$ most popular categorie
     \caption{\label{fig:exp:yelp300l}Yelp Data Set with 300 different labels}
 \end{figure}
 
-We also evaluate the running times of the algorithm on data with the radius fixed but the number of labels is different. Figure~\ref{fig:exp:yelp10k} shows the running times of a query in average of various numbers of labels.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Radius (meters)  & 50  & 100  & 150  & 200   & 250   \\ \hline
+Number of Points & 11  & 26   & 42   & 59    & 76    \\ \hline
+Radius (meters)  & 500 & 1000 & 5000 & 10000 & 20000 \\ \hline
+Number of Points & 159 & 298  & 597  & 657   & 721  \\ \hline
+\end{tabular}
+\caption{\label{tab:exp:radius}Number of points in certain radii in average.}
+\end{table}
+
+We also evaluate the running times of the algorithm on data with the radius fixed but the number of labels is different. In this experiments, we conduct the empirical study on the large neighbourhood queries whose label collection radius is 10000 meters. we first get a random permutation of the labels. Second, we run the our programs on the first $100$ labels, first $200$ labels, $\dots$, etc. Figure~\ref{fig:exp:yelp10k} shows the running times per query in average.
 
 \begin{figure}[h]
     \centering
@@ -101,8 +114,12 @@ We also evaluate the running times of the algorithm on data with the radius fixe
     \caption{\label{fig:exp:yelp10k}Yelp Data Set in 10000 meters neighbourhood}
 \end{figure}
 
+Figure~\ref{fig:exp:spatial} shows the running time of spatial synthetic data with 20 different labels. Both the spatial points and the labels of the points are generated randomly in uniform distribution.
+
 \begin{figure}[h]
     \centering
         \includegraphics[width=0.7\textwidth]{figs/Spatial}
     \caption{\label{fig:exp:spatial}Spatial Synthetic Dataset}
 \end{figure}
+
+In summary, the experimental result shows that our algorithm compute the skyline subspace efficiently and the pruning method improve the running time of the programs effectively.
