@@ -18,60 +18,30 @@
 \chapter{Related Work}
 \label{ch:related-work}
 
-Our problem of \emph{skyline subspace query} is mainly related to the existing work on general skyline query, subspace skyline computation and skyline query with specific constrain which are reviewed in Section~\ref{sec:rel:general}, Section~\ref{sec:cont-topk} and Section~\ref{sec:rel:constrain}, respectively.
+Our problem of \emph{skyline subspace query} is mainly related to the existing work on general skyline query, subspace skyline computation and skyline query with specific constrain which are reviewed in Section~\ref{sec:rel:general}, Section~\ref{sec:rel:subspace} and Section~\ref{sec:rel:constrain}, respectively.
 
 \section{General Skyline Query}
 \label{sec:rel:general}
 
-A number of studies of skyline done before. Borzsony et al~\cite{borzsony2001skyline} proposed the Block Nested Loop (BNL) method to compute the general skyline queries. Their work was more about finding the skyline points efficiently in Database.
+There is a number of studies of skyline in Data Mining area. The problem of finding the maxima (skyline) of a set of vectors is first investigated in~\cite{kung1975finding} where an $O(n\log ^{d-2}n)$ algorithm for dimension $d\geq 4$ and an $O(n\log n)$ time algorithm for dimension $d = 2, 3$ are proposed. To integrate the skyline operator into database, Borzsony et al.~\cite{borzsony2001skyline} proposed the Block-nested-loops Algorithm (BNL) and Divide and Conquer Algorithm (DC) to compute the skyline queries. BNL essentially maintain a window of incomparable and compare each object in the database with the objects in the window and outputs the skyline at the end of the iteration. DC divides the dataset into several partitions and each partition can fit in memory. The skylines in all partitions are computed individually in main memory, and then merged to produce the final skyline objects. 
+The sort-first-skyline (SFS)~\cite{chomicki2003skyline} algorithm also maintains a window of object which is similar to the BNL algorithm. In addition to that, it sorts the input data first so that it can guarantee the objects in the window can be output immediately as skyline points which makes the algorithm more efficient.
+Different from original skyline query problem which need to scan the whole database to output all the skyline points at the very end, progressive skyline problem is to progressively return the skyline points as they are identified. Tan et al.~\cite{tan2001efficient} proposed the Bitmap algorithm and Index algorithm to tackle this problem. The Bitmap algorithm is completely exploits a bitmap structure to identify whether a point is an skyline point. Index algorithm transfer the multi-dimensional objects into $1$-dimensional space and store the objects in a B+-tree structure. To explore the progressive skyline problem further, Tao et al.~\cite{papadias2005progressive} develop bound-and-branch skyline (BBS) which takes the advantage of R-tree to search for the nearest neighborhood. These works are about finding the skyline points efficiently in Database.
 
 \section{Subspace skyline computation}
 \label{sec:rel:subspace}
 
-For subspace skyline problem, Pei et al~\cite{pei2005catching}proposed the \emph{Skyey} algorithm which is based on the property of decisive subspaces to compute the skyline points for every subspace and the skyline groups and their signatures. Yuan et al~\cite{yuan2005efficient} developed the \emph{Top-Down Skyline Algorithm} to compute the skyline in every subspace. They also developed a novel data structure \emph{skylist} to store skyline
-objects in different subspaces in a compact way. In our paper, we are focusing on one query point not the whole dataset. Our work is to find the subspaces in terms the query point. We also extend our work on the graph setting and spatial setting.
+For subspace skyline problem, Pei et al.~\cite{pei2005catching} proposed the \emph{Skyey} algorithm based on the property of decisive subspaces to compute the skyline points for every subspace. Besides outputting the skyline points, the algorithm return the skyline groups and their signatures. \emph{Skyey} algorithm also takes the advantage of sharing sorted order of the objects among different subspaces. Yuan et al.~\cite{yuan2005efficient} developed the \emph{Top-Down Skyline Algorithm} to compute the skyline in every subspace. They also developed a novel data structure \emph{skylist} to store the skyline objects in different subspaces in a compact way. 
+Tao et al~\cite{tao2006subsky} proposed a technique SUBSKY to tackle the subspace skyline problem using a single B-tree. They apply an transformation on the multi-dimensional data to $1$-dimensional value to enable several effective pruning heuristics.
+The subspace skyline queries on high dimensional data was studied in~\cite{jin2007efficient}. To answer subspace skyline queries on high dimensional data, Jin et al~\cite{jin2007efficient} proposed novel notions of \emph{maximal partial-dominating space}, \emph{maximal partial-dominated space and the maximal equality space} between pairs of skyline objects in the full space. Both of their algorithms are in the top-down manner. In our paper, we are focusing on skyline subspace of one query point but not the whole dataset. Our work is to find the subspaces in terms of the query point. We also extend our work on the graph setting and spatial setting.
 
 \section{Skyline Query with Specific Constrain}
 \label{sec:rel:constrain}
-% add data stream models
-In this section, we briefly review various data stream models. Since our problem shares many common characteristics with continuous query answering over a data stream, we then review related problems including but not limited to similarity search.  
 
-\subsection{Data Stream Models}
-A data stream is a sequence of data elements $a_1, a_2, \dots$ that arrives item by item, which describes an underlying signal. The signal is a one-dimensional function $A: [1...N] \mapsto R$, where the domain consists of integers and the range is the set of real numbers. As mentioned in~\cite{muthukrishnan05}, there are mainly three models that differ on how items describe the signal, namely, time series model, turnstile model, and cash register model. We summarize the models briefly as the following.  
+Sharifzadeh et al.~\cite{sharifzadeh2006spatial} proposed an efficient algorithm $VS^2$ to compute the spatial skyline based on some geometry properties of convex hull and voronoi diagram. They proved that any point whose Voronoi cell intersects with boundaries of convex hull of the query points is a skyline point.
 
-\begin{itemize}
-\item \textbf{Time Series Model} This is the simplest model in which each $a_i$ is equal to $A[i]$ and items show up in the increasing order of $i$. We can think of the daily closing price of a stock from the listing date to the present as a data stream. Each $a_i$ corresponds to the closing price of the stock at day $i$.          
+Zou et al.~\cite{zou2010dynamic} applied the skyline algorithm on computing the skyline queries in the graph structure. They proposed the SSP pruning method to make queries processing more efficient.
 
-\item \textbf{Turnstile Model} In this most general model, $a_i = (j, U_i)$ which is an update to $A[j]$ where $U_i$ can be any real number. Suppose $A_i$ is the signal after processing the $i^{th}$ item $a_i$ in the stream, the update can be written as $A_i[j] = A_{i-1}[j] + U_i$. Let us consider a scenario where $N$ investors buy and sell shares of a certain stock. Since investors can buy and sell stock without particular order, a data stream, i.e., a sequence of transactions, $a_1, a_2, \dots$, can be generated. The $i^{th}$ transaction $a_i = (j, U_i)$ indicates that investor $j$ wants to buy $|U_i|$ shares if $U_i > 0$ and sell $|U_i|$ shares otherwise. Then, the total shares held by investor $j$ is updated by $A_i[j] = A_{i-1}[j] + U_i$.       
-
-\item \textbf{Cash Register Model} It can be considered as a special case of the Turnstile model where $U_i \geq 0$. To be more specific, each $a_i=(j, U_i)$ is an increment instead of a general update to $A[j]$. Following the previous example, if investors can only buy shares of stocks, the transaction sequence fits the cash register model. 
-
-\end{itemize}
-
-Many streaming algorithms are designed for the entire data stream. However, a wide range of real applications, such as web log mining and stock market prediction, do not consider outdated elements important. Thus, the sliding window model is of great importance. In this model, we only consider the most recent part of the data stream. Typically, there are two types of sliding windows with equal importance. The count-based sliding window is of fixed size and contains the last $n$ items in the data stream. The time-based sliding window allows bursts at a single time unit since it contains the items that arrived in the last $n$ time units. In this thesis, we focus on the count-based sliding window.   
-
-\subsection{Answering Continuous Queries}
-
-Different evolving models are used in previous studies that investigated continuous queries over a data stream. For example, Kontaki~\textit{et~al.}~\cite{KP04} studied similarity range queries in streaming time sequences using Euclidean distance, where both the query and data objects are evolving. An indexing method that is based on incremental computation method for Discrete Fourier Transform is used for achieving high candidates ratio. Lian~\textit{et~al.}~\cite{DBLP:conf/dasfaa/LianCW07} tackled the similarity search problem over multiple stream time series, given a static time series as a query. An approximation algorithm is developed using a weighted locality sensitive hashing technique. 
-
-Motivated by a wide range of applications such as network intrusion detection, much work~\cite{DBLP:conf/icde/BohmOPY07, DBLP:conf/vldb/KoudasOT004, DBLP:journals/tkde/MouratidisP07, DBLP:journals/tkde/MouratidisPBT05} has been embarked on monitoring nearest neighbour (NN) queries continuously over a data stream. The basic idea is to utilize indexing structures for reducing memory consumption and supporting efficient updates. Mouratidis~\textit{et~al.}~\cite{DBLP:journals/tkde/MouratidisP07} proposed two approaches for continuous monitoring of NN queries over sliding window streams.  The first approach extends the conceptual partitioning method to the sliding window model. Skyline maintenance techniques and pre-computation of future changes in nearest neighbours are used in the second approach.  Koudas~\textit{et~al.}~\cite{DBLP:conf/vldb/KoudasOT004} developed an approximation algorithm that utilizes an indexing scheme, DISC, and has guaranteed error and performance bound.
-
-The existing work on continuously monitoring nearest neighbours for mobile query object is different from the problem studied here. In those previous studies, the mobile object is assumed to move in a trajectory, potentially predictable to some extent.  In this thesis, the stream presenting an evolving query is not assumed a moving object.  Instead, we simply use the current sliding window as the current query.  The existing methods on continuous nearest neighbour monitoring for mobile objects cannot solve our problem.
-
-% To continuously querying the top-$k$ correlated graphs in a data stream scenario, Pan and Zhu~\cite{PZ12} proposed a two-level candidate checking scheme, one corresponding to the potential global candidate, and the other corresponding to the local candidate. This method can discover the emerging candidate patterns without processing the historical global data repetitively. 
-Besides continuous queries on similarity search problems, some interesting work is done for graph streams and general functions defined over data streams. Pan and Zhu~\cite{PZ12} developed a two-level candidate checking scheme for continuously querying the top-$k$ correlated graphs in a data stream scenario where static queries are posed on evolving graph streams. Mouratidis~\textit{et~al.}~\cite{DBLP:conf/sigmod/MouratidisBP06} proposed two approaches for continuously answering top-$k$ queries where the query is a static preference function over a fixed-sized sliding window. One approach is to compute new answers whenever a current top-$k$ point expired and the other approach is to precompute future changes partially. 
-
-Our proposed methods aim at providing algorithmic frameworks on how to deal with similarity search over evolving queries.  In our problem, we can take advantage of the fact that consecutive queries in a stream are very similar.  This results in some important design in our algorithms, which distinguishes our methods from the previous ones.  For example, we derive an upper bound on similarity scores after a few updates based on how the queries evolve.  The pruning-based algorithm uses this bound to prune unpromising candidates.  In the hashing-based algorithm, we maintain fixed-length signatures for all transactions and a query.  Since consecutive queries share a large portion of items, the change in the signature of the query is small.  With the help of inverted index, we can further speed up the updates of similarity scores.      
-
-% Yu~\textit{et~al.}~\cite{DBLP:conf/icde/YuPK05} developed two grid-based methods that indexes data objects or query objects for answering $k$-NN queries over moving objects.  
-
-% Kontaki~\textit{et~al.}~\cite{KPM12} considered the problem of answering continuous top-$k$ dominating queries that ranks multidimensional points regarding their dominance power based on a sliding window. Their methods are based on event scheduling techniques, which aim for reducing costly computations. 
-
-% The general idea is to reduce computation cost utilizing the fact that queries are evolving. Thus, we can think of how the evolvement of the query may affect the query results. 
-
- 
-
-
+Both of their works are focusing on finding the skylines while our work is focusing on finding the subspaces.
 
 
 
