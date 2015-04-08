@@ -22,7 +22,7 @@ In this chapter, we will evaluate our approach by reporting the experimental res
 We implement our algorithms using C++. We use Microsoft Visual Studio 2010 to compile our C++ programs. Experiments were conducted on a PC with an Intel Core(TM) i7-3779 3.40GHz CPU, 16GB main memory and a 900G hard disk, running the Microsoft Windows 7 Enterprise Edition operating system.
 
 \section{Experiments of Skyline Subspace Query on Graph}
-
+\label{ch:exp:graph}
 In this section, we will introduce the empirical study on skyline subspace query on graph.
 Using the model of Kronecker graph provided by~\cite{leskovec2005realistic}, we generated different sizes of graph.
 According to~\cite{leskovec2005realistic}, Kronecker graph has several real world network properties:
@@ -74,7 +74,7 @@ We use the DBLP dataset from $arnetminer$ (\url{http://arnetminer.org/billboard/
 \end{figure}
 
 \section{Experiments of Spatial Skyline Subspace Query}
-
+\label{ch:exp:spatial}
 In this section, we will introduce the empirical study on spatial skyline subspace query. We use the Yelp Academic Dataset (\url{https://www.yelp.ca/academic_dataset}) to evaluate our algorithm. Yelp Academic Dataset provides 13490 different business spot. Each business spot consists of its longitude and latitude information on the earth. We use the longitude and latitude information of the business spot as its spatial information. The business spot consists of a set of categories information, neighbourhood information and university information. We use those information as the labels of the business spot. Each business spot also contain a stars rating.
 
 In Figure~\ref{fig:exp:yelp20l}, we choose the top 20 most popular categories as the labels of the business spot and we compare the running time of the program with pruning and the program without pruning in the sense of different radius.

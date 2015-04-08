@@ -18,26 +18,24 @@
 \chapter{Conclusions}
 \label{ch:con}
 %\section{Summary of the Thesis}
-Motivated by a variety of application scenarios including advertisement recommendation for new users, automatic suggestions on computer war game strategies, and music recommendation by user humming, in this thesis, we studied the problem of \emph{continuous similarity search for evolving queries}, which is to continuously find the top-$k$ objects in a collection of sets that are most similar to an evolving query. To the best of our knowledge, it is the first research endeavour on this problem. We devised two efficient methods with different frameworks. The pruning-based method uses pruning strategies to reduce the cost of computing the exact similarity scores. This method can be extended to multiple similarity measures including edit distance and cosine similarity. The MinHash-based method approximates Jaccard similarity based on MinHash and efficiently updates the estimated scores using indexing structures. 
 
-We evaluated our methods empirically using synthetic and real data sets. Our synthetic data sets are generated using the IBM Quest Data Generator and the real data sets are market basket data and click stream data. The experimental results verify the effectiveness and efficiency of our methods. Moreover, the results on the real data sets are highly consistent with those on synthetic data sets. 
+The skyline subspace problem is originally motivated by the problem of what distinguish one from its peers in social networks~\cite{lo2013distinguish}. In this thesis, we formulate the social network into a graph with labels and consider the distances between a person and the labels as the factors that distinguish the person from its peers. We propose an bottom-up algorithm to answer \emph{skyline subspace query} which is based on set enumeration and dominating candidate sets intersection. To tackle the problems of skyline subspaces on graph and the skyline subspaces on euclidean space, we develop effective pruning methods to reduce the search space. 
+We did empirical studies using both synthetic and real data sets to evaluate our approach. We generated the synthetic graph based on the Kronecker graph model and the real world datasets are from DBLP and YELP. The experimental results verify the efficiency of our algorithms.
 
 %\section{Future Work}
 % Our methods can be improved in several aspects. In general, we can take advantage of pruning techniques used in static similarity join and search algorithms. We may also want to generalize the signature-based method for more similarity measures. 
 
-As for future work, we can consider the following interesting directions.  
+As for future work, we can consider the following directions.  
 
 \begin{itemize}
 % \item We can take advantage of pruning techniques used in static similarity join and search algorithms.
 % \item We may also want to generalize the signature-based method for more similarity measures. For example, Random projection method of LSH.      
    
-\item \textit{Enhance the pruning effectiveness.} In our pruning-based method, we only consider the progressive bounds that result from the evolvement of our query. We may find a way to incorporate the evolving feature into the pruning techniques used in static similarity join and search algorithms to further prune candidates.    
+\item \textit{Using top-down set enumeration.} Our algorithm is based on bottom-up set enumeration. In bottom-up manner, We take the advantage of the property that if a target skyline subspace is found then we do not need to search for the subspaces that contain this subspace. For top-down approach, one of the advantage we can take is that if the query point is strictly dominated by some points in a certain subspace $\mathcal{A}$, then we do not need to check the subsets of the subspace $\mathcal{A}$ because we know that the query point can not be a skyline point in those subspaces.
 
-  
-\item \textit{Improve hashing-based method for other similarity measures.} MinHash is an \emph{locality-sensitive hashing (LSH)} scheme for Jaccard similarity. It not only provides an efficient way to estimate Jaccard similarity, but also performs as signatures that can be indexed for similarity comparison against evolving signatures. We can extend our hashing-based framework to other similarity/distance measures that can be approximated by an LSH scheme. For example, hamming distance can be approximated using a bit sampling scheme~\cite{IndykM98} and cosine similarity can be approximated using a random projection method~\cite{C02}. However, as some preliminary results in Section~\ref{sec:other-measure} shows, the indexing structure is not good enough when every element in a signature can only take binary values. We may consider improving the inverted indices or constructing other indexing structures for this kind of similarity measures.  
-                                 
+\item \textit{Further pruning method development in euclidean space} There are many properties in euclidean space. In~\cite{sharifzadeh2006spatial}, Sharifzadeh et al. took the advantage of property of convex hull to reduce the size of skyline candidates. They also used the Voronoi diagram structure to index the graph. For future work, we can index the spatial points using Voronoi diagram instead of R-tree and applied pruning methods based on some geometry properties such as the property of convex hull.
 
-\item \textit{Similarity search over multiple evolving streams.} Let us consider a variation of our problem. Given a static object and multiple data streams with a fixed sliding window size, we want to continuously find the top-$k$ data streams whose last $n$ items is most similar to the static object. The progressive bounds derived in the pruning-based method still holds. A similar pruning algorithm can be devised based on the bounds. As for the hashing-based framework, unlike our problem that stores hash values for each static transaction and only update the hash values of the query, we need to update the hash values for each sliding window. Therefore, efficient techniques for updating or estimating the hash values is desired.        
+\item \textit{Voronoi Diagram}     
 
 
 \end{itemize}
