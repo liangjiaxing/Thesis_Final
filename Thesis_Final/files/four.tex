@@ -15,10 +15,10 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{A Pruning-based Method On Graph}
+\chapter{A Pruning-based Method On Graphs}
 \label{ch:graph}
 
-In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all the subspaces to check whether the query vertex is a subspace skyline in those subspaces. This method could be very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computations by applying some pruning techniques in our method.
+In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all subspaces to check whether the query vertex is a subspace skyline in those subspaces. Given a label graph $G=(V, E, L)$, the time complexity of this method is $O((|V|+|E|)|L| + 2^{|L|}|L|^2)$ which is very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computation by applying some pruning techniques in our method.
 
 \begin{table}[h]
 \centering
@@ -39,7 +39,7 @@ $(u, eq)$                   & element in dominating candidate set. $(u, eq) \in 
 
 \section{BFS Label Collecting}
 \label{sec:bfs-collect}
-We collect the d-hop labels by Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in \emph{label distance vector} to the distance from query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
+We collect the d-hop labels by Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in the \emph{label distance vector} to the distance from the query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
 
 \begin{algorithm}[H]
   \caption{Label Collecting}
@@ -66,45 +66,36 @@ We collect the d-hop labels by Breadth-First-Search and get the \emph{label dist
   \end{algorithmic}
 \end{algorithm}
 
-\section{Dominating Candidates Set}
+\section{Dominating Candidate Sets}
 \label{sec:dom-cand}
 
-By collecting the label in $d$ hops from the query vertex, we build the label distance vector of our query vertex. To avoid computing the label distance vectors of all other vertices to find the skyline subspaces, we define a concept of dominating candidates set to compute the skyline subspaces.
+By collecting the label in $d$ hops from the query vertex, we build the label distance vector of our query vertex. To avoid computing the label distance vectors of all other vertices, we define a concept of dominating candidates set to compute the skyline subspaces. Given a subspace $\mathcal{B}$, Dominating Candidate Set contains the vertices that may dominate the query vertex on some subspace $\mathcal{C}$ such that $\mathcal{B} \mathcal{C}$.
 
-\begin{definition}[Dominating Candidates Set]
-Given a subspace $\mathcal{B}$, the dominating candidates set of that subspace is the set of vertices that dominate the query vertex $q$ or equal to query vertex $q$ in subspace $\mathcal{B}$, denoted by $\mathit{CAND}_\mathcal{B}$.
+\begin{definition}[Dominating Candidate Set]
+Given a subspace $\mathcal{B}$, the dominating candidate set of that subspace is the set of vertices that dominate the query vertex $q$ or equal to query vertex $q$ in subspace $\mathcal{B}$, denoted by $\mathit{CAND}_\mathcal{B}$.
 \end{definition}
 
-\begin{property}
-\label{ppt:empty_cand}
-If $\mathit{CAND}_\mathcal{B} = \emptyset$ or every vertex in $\mathit{CAND}_\mathcal{B}$ is equal to the query vertex $q$ in subspace $\mathcal{B}$, then $q$ is a skyline in subspace $\mathcal{B}$.
-\end{property}
+The reason we put all vertices equal to the query vertex to the candidate set is that if a vertex equals to the query vertex in a subspace $\mathcal{B}$ then that vertex may dominate the query vertex in some supersets of subspace $\mathcal{B}$. 
 
-\begin{proof}
-If $\mathit{CAND}_\mathcal{B} = \emptyset$ or every vertex in $\mathit{CAND}_\mathcal{B}$ is equal to the query vertex $q$ in subspace $\mathcal{B}$, then there is no vertex dominates the query vertex $q$ in $\mathit{CAND}_\mathcal{B}$.
-$\mathit{CAND}_\mathcal{B}$ contains all the vertices that are not dominated by $q$. If all the vertices in $\mathit{CAND}_\mathcal{B}$ do not dominate $q$ in $\mathcal{B}$ then $q$ must be a skyline in subspace $\mathcal{B}$.
-\end{proof}
+If $\mathit{CAND}_\mathcal{B} = \emptyset$ or every vertex in $\mathit{CAND}_\mathcal{B}$ is equal to the query vertex $q$ in subspace $\mathcal{B}$, then $q$ is a skyline in subspace $\mathcal{B}$. Therefore, we can determine whether a subspace $\mathcal{B}$ is a \emph{skyline subspace} by checking whether the dominating candidate set of $\mathcal{B}$ or whether all elements in \emph{dominating candidates set} of $\mathcal{B}$ are equal to the query vertex in subspace $B$. To understand the concept of dominating candidate set, we will show a running example in Section~\ref{dom:run_ex}.
 
-Property~\ref{ppt:empty_cand}, shows that we can determine whether a subspace $\mathcal{B}$ is a \emph{skyline subspace} by checking the elements the \emph{dominating candidates set} of the subspace $\mathcal{B}$.
-
-
-\subsection{Dominating Candidates Set of $1$-dimensional subspace}
+\subsection{Dominating Candidate Set of $1$-dimensional subspace}
 
 We will introduce an algorithm to compute the \emph{dominating candidates set} of $1$-dimensional subspace. We will also introduce the concepts of \emph{Strictly Dominating Subspace} and \emph{Equivalence Subspace} which help us prune the unnecessary dominating candidates.
 
 \begin{definition}[Strictly Dominate]
-In a label graph, we say that label distance vector $LV_v=\left\{(l_i, dist_i)\right\}$ dominates label vector $LV_u=\left\{(l_i, dist_i^\prime)\right\}$, if and only if for all i, $dist_i < dist_i^\prime$.
+In a label graph, we say that label distance vector $LV_v=\left\{(l_i, dist_i)\right\}$ strictly dominates label vector $LV_u=\left\{(l_i, dist_i^\prime)\right\}$, if and only if for all i, $dist_i < dist_i^\prime$.
 \end{definition}
 
 \begin{definition}[Strictly Dominating Subspace]
-Strictly dominating subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, $u_\mathcal{B}$ strictly dominates query vertex $q_\mathcal{B}$ on subspace $\mathcal{B}$, denoted as $\mathit{SDS}_u$.
+Given a vertex $u$, strictly dominating subspace $\mathcal{B}$ for $u$ is the maximal subspace such that $u_\mathcal{B}$ strictly dominates query vertex $q_\mathcal{B}$ on subspace $\mathcal{B}$, denoted as $\mathit{SDS}_u$.
 \end{definition}
 
 \begin{definition}[Equivalence Subspace]
-Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, if $u_\mathcal{B}$ equals to the query vertex $q_\mathcal{B}$ in subspace $\mathcal{B}$, denoted as $\mathit{EQ}_u$.
+Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a vertex $u$, $u_\mathcal{B}$ equals to the query vertex $q_\mathcal{B}$ in subspace $\mathcal{B}$, denoted by $\mathit{EQ}_u$.
 \end{definition}
 
-In this algorithm, we start from the vertices with labels and update the label distance vector of those vertices. In the next step, we push all the neighbours of those vertices into the queue and update their label distance vectors and keep going. 
+In this algorithm, we start from the vertices with labels and update the label distance vectors of those vertices. In the next step, we push all the neighbours of those vertices into a queue and update their label distance vectors and keep going. 
 \begin{algorithm}[h]
   \caption{Dominating Candidates Set On $1$-Dimensional Subspace}
   \label{algo:dom_cand_graph}
@@ -137,13 +128,14 @@ In this algorithm, we start from the vertices with labels and update the label d
 \end{algorithm}
 
 \subsection{Running Example of Computing Dominating Candidates Set}
-
-In this subsection, we will give an example of how the algorithm of finding \emph{dominating candidates set on $1$-dimensional subspace} works. We will also show how the \emph{strictly dominating subspace} and the \emph{equivalence subspace} of each vertex is built.
+\label{dom:run_ex}
+In this subsection, we will give an example of how the algorithm of finding \emph{dominating candidates set on $1$-dimensional subspace} works. We will also show how the \emph{strictly dominating subspace} and the \emph{equivalence subspace} of each vertex are built.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{figs/graph_example_1}
-    \caption{\label{fig:cand_step1}label distance vector on the first iteration}
+    \caption{Label distance vector on the first iteration}
+    \label{fig:cand_step1}
     
 \end{figure}
 
@@ -158,13 +150,12 @@ In this subsection, we will give an example of how the algorithm of finding \emp
     x & $\emptyset$ & $\emptyset$ \\ \hline
     y & B           & $\emptyset$ \\ \hline
     \end{tabular}
-    \caption{\label{tab:sds_step1}SDS and EQS of each vertex on the first iteration}
-    
+    \caption{SDS and EQS of each vertex on the first iteration}
+    \label{tab:sds_step1}
 \end{table}
 
 \begin{table}[H]
     \centering
-
     \begin{tabular}{|l|l|}
     \hline
     Subspaces & Dominating Candidates \\ \hline
@@ -172,19 +163,19 @@ In this subsection, we will give an example of how the algorithm of finding \emp
     B         & $(w, dom), (y, dom)$            \\ \hline
     C         & $(w, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{tab:cand_set_step1}dominating candidates set of each $1$-dimensional subspace on the first iteration}
-    
+    \caption{Dominating candidate set of each $1$-dimensional subspace on the first iteration}
+    \label{tab:cand_set_step1}
 \end{table}
 
-Consider the LinkedIn network represented by Table~\ref{tab:skill_sets} and Figure~\ref{fig:graph} as our running example. Again, we take $z$ as the query vertex. The label distance vectors of all vertices are originally initialized as $\infty$. As shown in Figure~\ref{fig:cand_step1}, we start from the vertices with labels and mark the corresponding entries of the label distance vectors of those vertices as $0$. 
-We add the label $A$ to $\mathit{SDS}_u$ because $u$ dominates the query vertex $z$ in dimension $A$. Table~\ref{tab:sds_step1} shows the $\mathit{SDS}$ and $\mathit{EQS}$ of all the vertices on the first iteration.
+Consider the LinkedIn network represented by Table~\ref{tab:skill_sets} and Figure~\ref{fig:graph} as our running example. Again, we take $z$ as the query vertex. The label distance vectors of all vertices are originally initialized as ($\infty$, \dots, $\infty$). As shown in Figure~\ref{fig:cand_step1}, we start from the vertices with labels and mark the corresponding entries of the label distance vectors of those vertices as $0$. 
+We add the label $A$ to $\mathit{SDS}_u$ because $u$ dominates the query vertex $z$ in dimension $A$. Table~\ref{tab:sds_step1} shows the $\mathit{SDS}$ and $\mathit{EQS}$ of all the vertices in the first iteration.
 In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace $A$, we add $(u, dom)$ to the dominating candidate set $\mathit{CAND}_A$ as shown in Table~\ref{tab:cand_set_step1}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{figs/graph_example_2}
-    \caption{\label{fig:cand_step2}label distance vector on second iteration}
-    
+    \caption{Label distance vector on second iteration}
+    \label{fig:cand_step2}
 \end{figure}
 
 \begin{table}[H]
@@ -198,8 +189,8 @@ In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace 
     x & $\emptyset$ & $\emptyset$ \\ \hline
     y & BC          & $\emptyset$ \\ \hline
     \end{tabular}
-    \caption{\label{tab:sds_step2}SDS and EQS of each vertex on the second iteration}
-    
+    \caption{SDS and EQS of each vertex on the second iteration}
+    \label{tab:sds_step2}
 \end{table}
 
 \begin{table}[H]
@@ -212,14 +203,14 @@ In the first iteration, since $u$ dominates $z$ in the $1$-dimensional subspace 
     B         & $(w, dom), (y, dom)$            \\ \hline
     C         & $(w, dom), (y, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{tab:cand_set_step2}dominating candidates set of each $1$-dimensional subspace on the second iteration}
-    
+    \caption{Dominating candidates set of each $1$-dimensional subspace on the second iteration}
+    \label{tab:cand_set_step2}
 \end{table}
 
 
-Then, we explore the graph in breadth first order. On the second iteration, as shown in Figure~\ref{fig:cand_step2}, we visit the neighbours of the vertices that have been visited on the first iteration and update the corresponding entries of their label distance vectors. Table~\ref{tab:sds_step2} shows that subspace $A$ has been added to $\mathit{EQS}_v$ because on the second iteration we update the distance between $v$ and label $A$ to $2$ which is equal to distance between $z$ and label $A$. For the same reason, we add $(v, eq)$ to $\mathit{CAND}_A$ as shown in Table~\ref{tab:cand_set_step2}. It means that in $1$-dimensional subspace $A$, $v$ is equal to $z$ and it is still possible for $v$ to dominates $z$.
+Then, we explore the graph in a breadth first manner. On the second iteration, as shown in Figure~\ref{fig:cand_step2}, we visit the neighbours of the vertices that have been visited in the first iteration and update the corresponding entries of their label distance vectors. Table~\ref{tab:sds_step2} shows that subspace $A$ is added to $\mathit{EQS}_v$ because on the second iteration we update the distance between $v$ and label $A$ to $2$ which is equal to the distance between $z$ and label $A$. For the same reason, we add $(v, eq)$ to $\mathit{CAND}_A$ as shown in Table~\ref{tab:cand_set_step2}. It means that in $1$-dimensional subspace $A$, $v$ is equal to $z$ and it is still possible for $v$ to dominates $z$.
 
-After $2$ iterations, the process of building the  dominating candidate sets of all $1$-dimensional subspace ends. We also finish building the \emph{strictly dominating subspace} and \emph{equivalence subspace} of all the vertices on graph. In figure~\ref{tab:d_hops_distance}, we collect the $3$-hop labels by Breadth-First-Search and get the label vector. By this point, if the value of label $l$ in label distance vertex of vertex $v$ is $\infty$, then it means the distance between label $l$ and vertex $v$ is longer than the distance between the label $l$ and the query vertex $q$.
+After two iterations, the process of building the  dominating candidate sets of all $1$-dimensional subspace ends. We also finish building the \emph{strictly dominating subspace} and \emph{equivalence subspace} of all the vertices on graph. In figure~\ref{tab:d_hops_distance}, we collect the $3$-hop labels by Breadth-First-Search and get the label vector. By this point, if the value of label $l$ in label distance vertex of vertex $v$ is $\infty$, then it means the distance between label $l$ and vertex $v$ is longer than the distance between the label $l$ and the query vertex $q$.
 
 \begin{table}[h]
     \centering
