@@ -67,8 +67,8 @@ In this section, we introduce the skyline subspace queries on the graph setting.
 A label graph is defined as a undirected and unweighted graph $G = (V, E, L)$, with each vertex $v \in V$ contains a set of labels $L_v \subseteq \mathcal{L}$. $\mathcal{L}$ is the universal set of labels.
 \end{definition}
 
-\begin{definition}[Label Distance Vector On Graph in $H$-hop]
-Given a label graph $G$ and a hop number $D$, Label Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, $i = 1 \ldots n$. $l_i$ is a reachable label from $v$. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by a vertex $u$ in $H$ hops, then $dist_j = \infty$
+\begin{definition}[Label Distance Vector On Graph in $d$-hop]
+Given a label graph $G$ and a hop number $d$, Label Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, $i = 1 \ldots n$. $l_i$ is a reachable label from $v$. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by a vertex $u$ in $d$ hops, then $dist_j = \infty$
 \end{definition}
 
 \begin{definition}[Skyline Subspace Queries On Graph]

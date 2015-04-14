@@ -34,7 +34,8 @@ $\mathit{CAND}_\mathcal{B}$ & dominating candidate set of subspace $\mathcal{B}$
 $(u, dom)$                  & element in dominating candidate set. $(u, dom) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$. \\ \hline
 $(u, eq)$                   & element in dominating candidate set. $(u, eq) \in \mathit{CAND}_\mathcal{B}$ means that $u$ dominates query vertex $q$ in subspace $\mathcal{B}$.  \\ \hline
 \end{tabular}
-    \caption{\label{tab:symbol_graph}Symbols Used in the Pruning-based Method on Graph}
+    \caption{Symbols Used in the Pruning-based Method on Graph}
+    \label{tab:symbol_graph}
 \end{table}
 
 \section{BFS Label Collecting}
@@ -224,7 +225,7 @@ After two iterations, the process of building the dominating candidate sets of a
     $y$       & $\infty$ & 0 & 1 \\ \hline
     $z$       & 1 & 1 & 2 \\ \hline
     \end{tabular}
-    \caption{ distances between each person and each skill in 2-hop}
+    \caption{Distances between each person and each skill in 2-hop}
     \label{tab:d_hops_distance}
 \end{table}
 
@@ -283,8 +284,8 @@ By Property~\ref{ppt:prune_cand} and the observation above we develop a $1$-hop 
     $x$ & $\emptyset$ & $\emptyset$ & $\emptyset$    \\ \hline
     $y$ & BC          & $\emptyset$ & BC             \\ \hline
     \end{tabular}
-    \caption{\label{tab:SDS_EQS}the $SDS$ and $EQS$ of each vertex}
-    
+    \caption{The $SDS$ and $EQS$ of each vertex}
+    \label{tab:SDS_EQS}
 \end{table}
 
 Table~\ref{tab:SDS_EQS} shows $SDS$ and $EQS$ of all vertices on the graph. We can prune the unnecessary vertices from the \emph{dominating candidate set} according this table. By Property~\ref{ppt:prune_cand}, vertex $v$ can be pruned by $u$ and vertex $w$ can be pruned by $y$.
@@ -301,8 +302,8 @@ Table~\ref{tab:SDS_EQS} shows $SDS$ and $EQS$ of all vertices on the graph. We c
     $y$       & $\infty$ & 0 & 1 & \\ \hline
     $z$       & 1 & 1 & 2 &\\ \hline
     \end{tabular}
-    \caption{\label{tab:lv_pruned} label distance vector after 1-hop pruning}
-    
+    \caption{Label distance vector after 1-hop pruning}
+    \label{tab:lv_pruned}
 \end{table}
 
 \begin{table}[h]
@@ -314,8 +315,8 @@ Table~\ref{tab:SDS_EQS} shows $SDS$ and $EQS$ of all vertices on the graph. We c
     B         & $(y, dom)$            \\ \hline
     C         & $(y, dom)$            \\ \hline
     \end{tabular}
-    \caption{\label{tab:dom_cand_pruned} Pruned dominating candidate set of $1$-dimensional subspace}
-    
+    \caption{Pruned dominating candidate set of $1$-dimensional subspace}
+    \label{tab:dom_cand_pruned}
 \end{table}
 
 By Table~\ref{tab:lv_pruned}, $v$ and $x$ can be pruned by $u$. Also, $y$ can be pruned by $w$. Table~\ref{tab:lv_pruned} shows the vertices to be pruned and their label distance vectors. Although $w$ seems to be a better vertex (because $w$ dominates $y$), vertex $w$ is pruned by vertex $y$ because both vertices $y$ and vertex $w$ have the same \emph{strictly dominating subspace} and \emph{equivalence subspace} and $y$ is a $1$-hop neighbour of the query vertex $q$. Table~\ref{tab:dom_cand_pruned} shows the dominating candidate sets of the $1$-dimensional subspaces after the $1$-hop neighbour pruning.
