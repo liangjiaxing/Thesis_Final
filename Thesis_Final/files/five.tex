@@ -18,7 +18,7 @@
 \chapter{Spatial Skyline Subspace}
 \label{ch:spatial}
 
-In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries. In the computation of spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph} with different pruning techniques. We introduce a  method to prune the unnecessary \emph{dominating candidates} based on the geometric property of spatial skyline subspace.
+In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries. In the computation of spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph} with different pruning techniques. We introduce a method to prune the unnecessary \emph{dominating candidates} based on the geometric property of spatial skyline subspace.
 
 \section{Label Collecting in Radius $r$}
 We index the data points in R-tree. In R-tree we can get all points in a certain rectangle in $O(M \log_M n)$. $M$ is the maximum number of entries of each bounding box and $n$ is the total number of points. By indexing the data points in R-tree, if we want access the neighbouring points of certain query point $q$, we can query the square with its center on point $q$ in R-tree without accessing the whole set of data points. We compute query point $q$'s label distance vector $LV_q$ by checking the labels of the points in rectangle with upper-left corner point $(p.x - r, p.y - r)$ and lower-right corner point $(p.x + r, p.y + r)$. Then we collect the labels within distance $r$ as the label distance vector $LV_q$.

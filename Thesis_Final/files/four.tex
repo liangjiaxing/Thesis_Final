@@ -15,7 +15,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{A Pruning-based Method On Graphs}
+\chapter{A Pruning-based Method on Graphs}
 \label{ch:graph}
 
 In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all subspaces to check whether the query vertex is a subspace skyline in those subspaces. Given a label graph $G=(V, E, L)$, the time complexity of this method is $O((|V|+|E|)|L| + 2^{|L|}|L|^2)$ which is very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computation by applying some pruning techniques in our method.
@@ -98,7 +98,7 @@ Equivalence subspace $\mathcal{B}$ is the maximal subspace such that given a ver
 
 In this algorithm, we start from the vertices with labels and update the label distance vectors of those vertices. In the next step, we push all the neighbours of those vertices into a queue and update their label distance vectors and keep going. 
 \begin{algorithm}[h]
-  \caption{Dominating candidate Set On $1$-Dimensional Subspace}
+  \caption{Dominating candidate Set on $1$-Dimensional Subspace}
   \label{algo:dom_cand_graph}
   \begin{algorithmic}[1]
   \show\LOOP

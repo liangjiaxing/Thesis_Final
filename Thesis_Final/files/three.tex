@@ -60,18 +60,18 @@ In subspace $(B, C)$, $x_{(B, C)} = (2, 3), y_{(B, C)} = (3, 3), z_{(B, C)} = (4
 In subspace $(A, C)$, $y_{(A, C)} = (3, 3), z_{(A, C)} = (2, 1)$ and $y_{(A, C)}$ is dominated by $z_{(A, C)}$. There $(A, C)$ is not a skyline subspace. 
 $(A, B, C)$ is a skyline subspace but it not a minimal skyline subspace because it is a proper superset of one of the skyline subspace $(A, B)$.
 
-\section{Skyline Subspace Queries On Graph}
+\section{Skyline Subspace Queries on Graph}
 In this section, we introduce the skyline subspace queries on the graph setting. First, we will introduce a kind of graph such that each vertex in the graph contains several labels, denoted by a \emph{label graph}. We are interested in the distance between each vertex and each label. The set of distances between a vertex and all labels is represented by the \emph{label distance vector} of that vertex. The following shows the definitions of \emph{label graph} and \emph{label distance vector}.
 
 \begin{definition}[Label Graph]
 A label graph is defined as a undirected and unweighted graph $G = (V, E, L)$, with each vertex $v \in V$ contains a set of labels $L_v \subseteq \mathcal{L}$. $\mathcal{L}$ is the universal set of labels.
 \end{definition}
 
-\begin{definition}[Label Distance Vector On Graph in $d$-hop]
+\begin{definition}[Label Distance Vector on Graph in $d$-hop]
 Given a label graph $G$ and a hop number $d$, Label Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, $i = 1 \ldots n$. $l_i$ is a reachable label from $v$. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by a vertex $u$ in $d$ hops, then $dist_j = \infty$
 \end{definition}
 
-\begin{definition}[Skyline Subspace Queries On Graph]
+\begin{definition}[Skyline Subspace Queries on Graph]
 Given a label graph $G = (V, E, L)$, a query vertex $q$ and a number $H$, the skyline subspaces query on graph is to find all the \emph{minimal skyline subspaces} of $q$ in terms of the label distance vectors on graph.
 \end{definition}
 
@@ -119,7 +119,7 @@ In this example, if the query point is $z$, the minimal skyline subspaces of $z$
 
 \section{Spatial Skyline Subspace Queries}
 
-In this section, we will introduce spatial skyline subspace queries. Given a set of points in $2$-dimensional space. Some of the points will contain some labels. The distance between a point and a label is the Euclidean distance between that point and the closest point containing that label. Our goal is to compute the skyline subspace queries on this spatial setting.
+In this section, we will introduce spatial skyline subspace queries. Given a set of points in $2$-dimensional space. Some of the points will contain some labels. The distance between a point and a label is the Euclidean distance between that point and the closest point with that label. Our goal is to compute the skyline subspace queries on this spatial setting.
 
 \begin{definition}[Spatial Label Distance Vector]
 Given a set of points $P$, the Label Distance Vector of a point $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, $i = 1 \ldots n$. $l_i$ is a reachable label from $v$. $dist_i$ is the Euclidean distance from vertex $v$ to the closest vertex that contains label $l_i$.
