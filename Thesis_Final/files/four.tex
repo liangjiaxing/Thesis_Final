@@ -18,7 +18,7 @@
 \chapter{A Pruning-based Method on Graphs}
 \label{ch:graph}
 
-In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all subspaces to check whether the query vertex is a subspace skyline in those subspaces. Given a label graph $G=(V, E, L)$, the time complexity of this method is $O((|V|+|E|)|L| + 2^{|L|}|L|^2)$ which is very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computation by applying some pruning techniques in our method.
+In this chapter, we will introduce the algorithms to compute the skyline subspace queries. One way to solve this problem is to compute the label distance vectors of all the vertices first and enumerate all subspaces to check whether the query vertex is a subspace skyline in those subspaces using the existing skyline computation algorithms. Given a label graph $G=(V, E, L)$, the time complexity of this method is $O((|V|+|E|)|L| + 2^{|L|}|L|^2)$ which is very time consuming. In order to make the algorithm more efficient, we propose a bottom-up set enumeration algorithm and manage to avoid some unnecessary computation by applying some pruning techniques in our method.
 
 \begin{table}[h]
 \centering
@@ -40,7 +40,7 @@ $(u, eq)$                   & element in dominating candidate set. $(u, eq) \in 
 
 \section{BFS Label Collecting}
 \label{sec:bfs-collect}
-We collect the d-hop labels by Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in the \emph{label distance vector} to the distance from the query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
+We collect the $d$-hop labels using Breadth-First-Search and get the \emph{label distance vector} of query vertex. The idea is that we start with our query vertex and traverse the graph in the Breadth First order. If we visit a vertex with a new label that we have not visited before, we update the corresponding entry of that label in the \emph{label distance vector} to the distance from the query vertex. The Breadth First Search process will end if all reachable vertices in $d$ hops has been visited. And we will get the \emph{label distance vector} of the query vertex when the BFS label collecting ends.
 
 \begin{algorithm}[H]
   \caption{Label Collecting}
@@ -70,7 +70,7 @@ We collect the d-hop labels by Breadth-First-Search and get the \emph{label dist
 \section{Dominating Candidate Sets}
 \label{sec:dom-cand}
 
-By collecting the label in $d$ hops from the query vertex, we build the label distance vector of our query vertex. To avoid computing the label distance vectors of all other vertices, we define a concept of dominating candidate set to compute the skyline subspaces. Given a subspace $\mathcal{B}$, Dominating Candidate Set contains the vertices that may dominate the query vertex on some subspace $\mathcal{C}$ such that $\mathcal{B} \mathcal{C}$.
+By collecting the label in $d$ hops from the query vertex, we build the label distance vector of our query vertex. To avoid computing the label distance vectors of some unnecessary vertices, we define a concept of dominating candidate set to store the possible vertices that dominate the query vertex $q$ in certain subspaces. Given a subspace $\mathcal{B}$, Dominating Candidate Set of $\mathcal{B}$ contains the vertices that may dominate the query vertex on some subspace $\mathcal{C}$ such that $\mathcal{B} \subset \mathcal{C}$.
 
 \begin{definition}[Dominating Candidate Set]
 Given a subspace $\mathcal{B}$, the dominating candidate set of that subspace is the set of vertices that dominate the query vertex $q$ or equal to query vertex $q$ in subspace $\mathcal{B}$, denoted by $\mathit{CAND}_\mathcal{B}$.
