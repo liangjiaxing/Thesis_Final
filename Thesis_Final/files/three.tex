@@ -69,7 +69,7 @@ A labeled graph is defined as a undirected and unweighted graph $G = (V, E, L)$,
 \end{definition}
 
 \begin{definition}[Labeled Distance Vector on Graph in $d$-hop]
-Given a labeled graph $G$ and a hop number $d$, the Labeled Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$ in up to $d$ hops. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by a vertex $u$ in $d$ hops, then $dist_j = \infty$.
+Given a labeled graph $G$ and a hop number $d$, the Labeled Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$ in up to $d$ hops. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the vertex $v$ in $d$ hops, then $dist_j = \infty$.
 \end{definition}
 
 \begin{definition}[Skyline Subspace Queries on Graph]
@@ -114,7 +114,7 @@ Both of them together represent a \emph{labeled graph}. In Table~\ref{tab:skill_
     
 \end{table}
 
-In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bio-informatics and C++ respectively. The table shows the distances between the people and the skills. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{label vector} of a vertex.
+In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bio-informatics and C++ respectively. The table shows the distances between the people and the skills. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{labeled distance vector} of a vertex.
 In this example, if the query point is $z$, the minimal skyline subspaces of $z$ are $(A, B)$ and $(A, C)$ because there is no such a vertex $w \in S$ that $w_{(A,B)}$ dominates $z_{(A,B)}$ or $w_{(A,C)}$ dominates $z_{(A,C)}$.
 
 
@@ -122,8 +122,8 @@ In this example, if the query point is $z$, the minimal skyline subspaces of $z$
 
 In this section, we will introduce spatial skyline subspace queries. Given a set of points in a $2$-dimensional Euclidean space. Some of the points contain some labels. The distance between a point and a label is the Euclidean distance between that point and the closest point with that label. Our goal is to compute the skyline subspace queries on this spatial setting.
 
-\begin{definition}[Spatial Labeled Distance Vector]
-Given a set of points $P$, the Labeled Distance Vector of a point $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$, $dist_i$ is the Euclidean distance from vertex $v$ to the closest vertex that contains label $l_i$.
+\begin{definition}[Spatial Labeled Distance Vector in range $r$]
+Given a set of points $P$, the Labeled Distance Vector of a point $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$, $dist_i$ is the Euclidean distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the point $v$ in range $r$, then $dist_j = \infty$.
 \end{definition}
 
 \begin{definition}[Spatial Skyline Subspace Queries]

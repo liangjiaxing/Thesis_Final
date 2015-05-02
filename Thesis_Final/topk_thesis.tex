@@ -21,6 +21,8 @@
 \usepackage[titletoc]{appendix}%%Ensure word appendix appears in toc
 \usepackage[pagebackref=true,pdfstartview=FitH,bookmarksopen=false,colorlinks,linkcolor=black,citecolor=black]{hyperref} 
 
+\usepackage[height=11in, width=8.5in, top=1.595in, left=1.25in, bottom=1.345in, right=1.25in, papersize={8.5in,11in}]{geometry}
+
 \usepackage{mathrsfs}
 \usepackage[noend, algo2e, linesnumbered, ruled]{algorithm2e}
 \usepackage{epsfig}
@@ -41,6 +43,8 @@
 \usepackage{color}
 \usepackage{algorithm,algorithmic}
 
+\usepackage{soul}
+
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
@@ -50,7 +54,7 @@
 \newtheorem{property}{Property}[chapter] 
 \newtheorem{example}{Example}[chapter] 
 %\newtheorem{proof}{proof}[chapter]   
-%\newtheorem{lemma}{Lemma}[section]  
+\newtheorem{lemma}{Lemma}[section]  
 
 %\usepackage{enumitem}
 %\setlist{nolistsep}
