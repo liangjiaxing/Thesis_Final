@@ -50,7 +50,7 @@ Given a set of objects $S$ in an $n$-dimensional space $\mathcal{D} = (D_1,\dots
     points & $A$ & $B$ & $C$ \\ \hline
     $x$      & 4 & 2 & 3 \\ \hline
     $y$      & 3 & 3 & 3 \\ \hline
-    $z$      & 2 & 4 & 1 \\ \hline
+    $q$      & 2 & 4 & 1 \\ \hline
     \end{tabular}
     \caption{\label{tab:objects_example} A set of objects as our running example}
 \end{table}
@@ -69,8 +69,10 @@ A labeled graph is defined as a undirected and unweighted graph $G = (V, E, L)$,
 \end{definition}
 
 \begin{definition}[Labeled Distance Vector on Graph in $d$-hop]
-Given a labeled graph $G$ and a hop number $d$, the Labeled Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$ in up to $d$ hops. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the vertex $v$ in $d$ hops, then $dist_j = \infty$.
+Given a labeled graph $G$ and a hop number $d$, the Labeled Distance Vector of a vertex $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$ in up to $d$ hops. $dist_i$ is the distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the vertex $v$ in $d$ hops, then $dist_j = \infty$. 
 \end{definition}
+
+We simply denote the value of \emph{labeled distance vector} of a vertex $v$ on dimension $D$ by $v.D$ in our thesis.
 
 \begin{definition}[Skyline Subspace Queries on Graph]
 Given a labeled graph $G = (V, E, L)$, a query vertex $q$ and a hop number $d$, the skyline subspaces query on graph is to find all the \emph{minimal skyline subspaces} of the query vertex $q$ in terms of the \emph{labeled distance vectors} of all the vertices on graph $G$ in $d$ hops.
@@ -108,14 +110,14 @@ Both of them together represent a \emph{labeled graph}. In Table~\ref{tab:skill_
         $w$       & 3 & 0 & 0 \\ \hline
         $x$       & 2 & 2 & 3 \\ \hline
         $y$       & 2 & 0 & 1 \\ \hline
-        $z$       & 1 & 1 & 2 \\ \hline
+        $q$       & 1 & 1 & 2 \\ \hline
     \end{tabular}
     \caption{\label{tab:distances_graph} distances between each person and each skill}
     
 \end{table}
 
 In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bio-informatics and C++ respectively. The table shows the distances between the people and the skills. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{labeled distance vector} of a vertex.
-In this example, if the query point is $z$, the minimal skyline subspaces of $z$ are $(A, B)$ and $(A, C)$ because there is no such a vertex $w \in S$ that $w_{(A,B)}$ dominates $z_{(A,B)}$ or $w_{(A,C)}$ dominates $z_{(A,C)}$.
+In this example, if the query point is $q$, the minimal skyline subspaces of $q$ are $(A, B)$ and $(A, C)$ because there is no such a vertex $w \in S$ that $w_{(A,B)}$ dominates $z_{(A,B)}$ or $w_{(A,C)}$ dominates $z_{(A,C)}$.
 
 
 \section{Spatial Skyline Subspace Queries}
@@ -123,8 +125,10 @@ In this example, if the query point is $z$, the minimal skyline subspaces of $z$
 In this section, we will introduce spatial skyline subspace queries. Given a set of points in a $2$-dimensional Euclidean space. Some of the points contain some labels. The distance between a point and a label is the Euclidean distance between that point and the closest point with that label. Our goal is to compute the skyline subspace queries on this spatial setting.
 
 \begin{definition}[Spatial Labeled Distance Vector in range $r$]
-Given a set of points $P$, the Labeled Distance Vector of a point $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$, $dist_i$ is the Euclidean distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the point $v$ in range $r$, then $dist_j = \infty$.
+Given a set of points $P$, the Labeled Distance Vector of a point $v$ is $LV_v=\left\{\left(l_i, dist_i\right)\right\}$, where $i = 1 \ldots n$, $l_i$ is a reachable label from $v$, $dist_i$ is the Euclidean distance from vertex $v$ to the closest vertex that contains label $l_i$. If a label $l_j$ is not reachable by the point $v$ in range $r$, then $dist_j = \infty$. 
 \end{definition}
+
+We simply denote the value of \emph{labeled distance vector} of a point $v$ on dimension $D$ by $v.D$ in our thesis.
 
 \begin{definition}[Spatial Skyline Subspace Queries]
 Given a set of points $P$ and a query point $q$, the skyline subspaces query on Euclidean space is to find all the \emph{minimal skyline subspaces} in terms of the spatial labeled distance vectors of every point in $P$.
@@ -163,11 +167,11 @@ Table~\ref{tab:spot_category} shows the business spots with categories. Figure~\
     $w$       & $\sqrt{10}$ & 0 & 0 \\ \hline
     $x$       & $\sqrt{5}$ & $\sqrt{2}$ & $\sqrt{5}$ \\ \hline
     $y$       & $\sqrt{5}$ & 0 & 1 \\ \hline
-    $z$       & $\sqrt{2}$ & 1 & 2 \\ \hline
+    $q$       & $\sqrt{2}$ & 1 & 2 \\ \hline
     \end{tabular}
     \caption{\label{tab:distances_spatial} Distances between each spot and each categories}
 \end{table}
 
-In the header row of Table~\ref{tab:distances_spatial}, $A$, $B$ and $C$ stand for Asian Food, Breakfast and Cafes, respectively. The table shows the distances between each spot and each categories. In this example, if $z$ is the query point, then the minimal skyline subspaces are $(A, B)$ and $(A, C)$.
+In the header row of Table~\ref{tab:distances_spatial}, $A$, $B$ and $C$ stand for Asian Food, Breakfast and Cafes, respectively. The table shows the distances between each spot and each categories. In this example, if $q$ is the query point, then the minimal skyline subspaces are $(A, B)$ and $(A, C)$.
 
 

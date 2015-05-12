@@ -18,10 +18,10 @@
 \chapter{Spatial Skyline Subspace}
 \label{ch:spatial}
 
-In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries in range $r$. In the computation of the spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph} with different pruning techniques. We introduce a method to prune the unnecessary \emph{dominating candidates} based on the geometric property of spatial skyline subspace.
+In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries in range $r$. In the computation of the spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph} with different pruning techniques. We introduce a method to prune some of the \emph{dominating candidates} based on the geometric property of the spatial skyline subspace queries problem.
 
 \section{Label Collecting in Range $r$}
-We index the data points in R-tree. In R-tree we can get all the points in a certain rectangle in $O(M \log_M n)$ time~\cite{guttman1984r}. $M$ is the maximum number of entries of each bounding box and $n$ is the total number of points. By indexing the data points in R-tree, if we want access the neighbouring points of certain query point $q$, we can query the square with its center on point $q$ in R-tree without accessing the whole set of data points. We compute the \emph{labeled distance vector} of query point $q$, $LV_q$, by retrieving the labels of the points in rectangle with upper-left corner point $(p.x - r, p.y - r)$ and lower-right corner point $(p.x + r, p.y + r)$ and checking whether those labels are in range $r$ of the query point $q$. Then we collect the distances to those labels as the labeled distance vector of $q$, $LV_q$.
+We index the data points in R-tree. In R-tree we can get all the points in a certain rectangle in $O(M \log_M n)$ time~\cite{guttman1984r}. $M$ is the maximum number of entries of each bounding box and $n$ is the total number of points. By indexing the data points in R-tree, if we want to access the neighbouring points of a certain query point $q$, we can query the square with its center on point $q$ in R-tree without accessing the whole set of data points. We compute the \emph{labeled distance vector} of query point $q$, $LV_q$, by retrieving the labels of the points in rectangle with lower-left corner point $(p.x - r, p.y - r)$ and upper-right corner point $(p.x + r, p.y + r)$ and checking whether those labels are in range $r$ of the query point $q$. Then we collect the distances to those labels as the labeled distance vector of $q$, $LV_q$.
 
 \section{Dominating Candidates in Spatial Subspace Skyline}
 
@@ -66,14 +66,14 @@ Consider the Figure~\ref{fig:spatial_map} and \ref{tab:spot_category} as a runni
     $w$       & $\infty$ & 0 & 0 \\ \hline
     $x$       & $\infty$ & $\infty$ & $\infty$ \\ \hline
     $y$       & $\infty$ & 0 & 1 \\ \hline
-    $z$       & $\sqrt{2}$ & 1 & 2 \\ \hline
+    $q$       & $\sqrt{2}$ & 1 & 2 \\ \hline
     \end{tabular}
     \caption{Labeled distance vector of each points}
     \label{tab:lv_spatial}
 \end{table}
 
 \section{Same Region Pruning}
-After getting the list of dominating candidate sets and the $\mathit{SDS}$ and $\mathit{EQS}$ of all the points, we can prune some unnecessary candidate points of the dominating candidate sets. By Property~\ref{ppt:prune_cand}, we can see that if two points $u$ and $v$ have the same $\mathit{SDS}_u$ and $\mathit{SDS}_v$ and they have the same $\mathit{EQS}_u$ and $\mathit{EQS}_v$, then one of the point $u$ and $v$ can be pruned by the other.
+After getting the list of dominating candidate sets and the $\mathit{SDS}$ and $\mathit{EQS}$ of all the points, we can prune some of the candidate points of the dominating candidate sets. By Lemma~\ref{ppt:prune_cand}, we can see that if two points $u$ and $v$ have the same $\mathit{SDS}_u$ and $\mathit{SDS}_v$ and they have the same $\mathit{EQS}_u$ and $\mathit{EQS}_v$, then one of them can be pruned by the other.
 
 \begin{figure}[h]
     \centering
@@ -82,7 +82,7 @@ After getting the list of dominating candidate sets and the $\mathit{SDS}$ and $
     \label{fig:circle_example}
 \end{figure}
 
-We will show an example of how the spatial points can be pruned from the dominating candidate set. In Figure~\ref{fig:circle_example}, point $q$ is the query point, point $A$ is a point with label $A$ and point $B$ is a point with label $B$. $r_{A}$ is the distance between query point $q$ and label $A$, and $r_{B}$ is the distance between query point $q$ and label $B$. The blue points ($v_1$ and $v_2$) dominate the query point $q$ in the $1$-dimensional subspace $A$. The green points ($v_5$ and $v_6$) dominate the query point $q$ in subspace $B$. The red points ($v_3$ and $v_4$) dominate the query point $q$ in subspace $(A, B)$. In this example, the points with the same colors, ($v_1$, $v_2$), ($v_3$, $v_4$), ($v_5$, $v_6$) have the same \emph{strictly dominating subspace} $\mathit{SDS}$ and the same \emph{equivalence subspace} $\mathit{EQS}$. Therefore, we can keep one of the points from each color as a representative and prune the others from the \emph{dominating candidate set}. We will show that the number of region is bounded by the square of the number the of vertices with labels.
+We will show an example of how the spatial points can be pruned from the dominating candidate set. In Figure~\ref{fig:circle_example}, point $q$ is the query point, point $A$ is a point with label $A$ and point $B$ is a point with label $B$. $r_{A}$ is the distance between the query point $q$ and the label $A$, and $r_{B}$ is the distance between the query point $q$ and the label $B$. The blue points ($v_1$ and $v_2$) dominate the query point $q$ in the $1$-dimensional subspace $A$. The green points ($v_5$ and $v_6$) dominate the query point $q$ in subspace $B$. The red points ($v_3$ and $v_4$) dominate the query point $q$ in subspace $(A, B)$. In this example, the points with the same colors, ($v_1$, $v_2$), ($v_3$, $v_4$), ($v_5$, $v_6$) have the same \emph{strictly dominating subspace} $\mathit{SDS}$ and the same \emph{equivalence subspace} $\mathit{EQS}$. Therefore, we can keep one of the points from each region as a representative and prune the others from their \emph{dominating candidate sets}. We will show that the number of regions is bounded by the square of the number the of vertices with labels.
 
 \begin{property}
 \label{ppt:circle_space}
@@ -92,11 +92,13 @@ $n$ circle can only divide the $2$-dimensional space into at most $n(n-1)+2$ dif
 \begin{proof}
 Proof by induction.\\
 Basic: If $n=1$, then one circle divide the $2$-dimensional space into $2$ different regions.\\
-Inductive step: Assume that the statement holds for $k$, i.e., $k$ circles can only divide the space into at most $k(k-1)+2$ different regions. The $(k+1)$th circle can only intersect with at most $k$ circle with $2k$ intersection points. Then the $(k+1)$th can only be divide into $2k$ segments and each segment divide the region it locates into two. Therefore, $k+1$ circles can only divide the space into at most $k(k-1)+2+2k = k(k+1)+2k$ different regions.\\
+Inductive step: Assume that the statement holds for $k$, i.e., $k$ circles can only divide the space into at most $k(k-1)+2$ different regions. The $(k+1)$th circle can only intersect with at most $k$ circle with $2k$ intersection points. Then the $(k+1)$th can only be divide into $2k$ segments and each segment divide the region it is located in into two. Therefore, $k+1$ circles can only divide the space into at most $k(k-1)+2+2k = k(k+1)+2k$ different regions.\\
 Since both the basis and the inductive step have been performed, by mathematical induction, the statement holds for all natural number $n$.
 \end{proof}
 
-By Property~\ref{ppt:circle_space}, we know that the total number of regions is not greater than the square of total number of vertices containing label. We determine whether two points $u, v$ are in the same region by checking whether $SDS_u$ and $SDS_v$ are the same.
+By Property~\ref{ppt:circle_space}, we know that the total number of regions is not greater than the square of total number of vertices containing label. 
+
+In our algorithm, we determine whether two points $u, v$ are in the same region by checking whether $SDS_u$ and $SDS_v$ are the same.
 
 \begin{algorithm}[H]
   \caption{Same Region Pruning}
@@ -115,7 +117,7 @@ By Property~\ref{ppt:circle_space}, we know that the total number of regions is 
   \end{algorithmic}
 \end{algorithm}
 
-After applying the Algorithm~\ref{algo:spatial_prune} to prune the unnecessary elements in the \emph{dominating candidate set} in all $1$-dimensional subspace, we will use the same set-enumeration method of skyline subspace computation from Chapter~\ref{ch:graph} to compute the \emph{dominating candidate sets} of all subspaces in order to get the spatial skyline subspace.
+By applying the Algorithm~\ref{algo:spatial_prune}, we prune some of the elements in the \emph{dominating candidate set} in all $1$-dimensional subspace. Then we will use the same set-enumeration method of skyline subspace computation from Chapter~\ref{ch:graph} to compute the \emph{dominating candidate sets} of all subspaces in order to answer the spatial skyline subspace queries.
 
 
 
