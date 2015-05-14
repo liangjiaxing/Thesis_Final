@@ -21,7 +21,7 @@
 In this chapter, we will introduce the algorithms to compute the spatial skyline subspace queries in range $r$. In the computation of the spatial skyline subspace skyline queries, we use the same set enumeration framework as shown in Chapter~\ref{ch:graph} with different pruning techniques. We introduce a method to prune some of the \emph{dominating candidates} based on the geometric property of the spatial skyline subspace queries problem.
 
 \section{Label Collecting in Range $r$}
-We index the data points in R-tree. In R-tree we can get all the points in a certain rectangle in $O(M \log_M n)$ time~\cite{guttman1984r}. $M$ is the maximum number of entries of each bounding box and $n$ is the total number of points. By indexing the data points in R-tree, if we want to access the neighbouring points of a certain query point $q$, we can query the square with its center on point $q$ in R-tree without accessing the whole set of data points. We compute the \emph{labeled distance vector} of query point $q$, $LV_q$, by retrieving the labels of the points in rectangle with lower-left corner point $(p.x - r, p.y - r)$ and upper-right corner point $(p.x + r, p.y + r)$ and checking whether those labels are in range $r$ of the query point $q$. Then we collect the distances to those labels as the labeled distance vector of $q$, $LV_q$.
+We index the data points in R-tree. In R-tree we can get all the points in a certain rectangle in $O(M \log_M n)$ time~\cite{guttman1984r}. $M$ is the maximum number of entries of each bounding box and $n$ is the total number of points. By indexing the data points in R-tree, if we want to access the neighbouring points of a certain query point $q$, we can query the square with its center on point $q$ in R-tree without accessing the whole set of data points. We compute the \emph{labeled distance vector} of query point $q$, $LV_q$, by retrieving the labels of the points in rectangle with lower-left corner point $(p.x - r, p.y - r)$ and upper-right corner point $(p.x + r, p.y + r)$ and checking whether those labels are in range $r$ of the query point $q$. Then we collect the distances to those labels as the labeled distance vector of $q$, $LV_q$. Consider the example in Figure~\ref{fig:spatial_map} and Figure~ \ref{tab:spot_category}. We compute the spatial skyline subspace query of $q$ in range $r$. We first make a query on R-tree to get all the points in rectangle $(0, 0)$, $(4, 4)$. Then we have points $x, y, w, u$ in range $2$ of the query point $q$. The distances from $q$ to $u, y, w$ are $\sqrt{2}$, $1$, $2$, respectively. Therefore the labeled distance vector of query point $q$ is $(\sqrt{2}, 1, 2)$.
 
 \section{Dominating Candidates in Spatial Subspace Skyline}
 
@@ -118,13 +118,3 @@ In our algorithm, we determine whether two points $u, v$ are in the same region 
 \end{algorithm}
 
 By applying the Algorithm~\ref{algo:spatial_prune}, we prune some of the elements in the \emph{dominating candidate set} in all $1$-dimensional subspace. Then we will use the same set-enumeration method of skyline subspace computation from Chapter~\ref{ch:graph} to compute the \emph{dominating candidate sets} of all subspaces in order to answer the spatial skyline subspace queries.
-
-
-
-
-
-
-
-
-
-
