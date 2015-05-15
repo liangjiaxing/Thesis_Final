@@ -57,7 +57,7 @@ In this section, we will show an algorithm to compute the $\mathit{CAND}$ of all
 \end{algorithm}
 
 In Algorithm~\ref{algo:spatial_cand}, we construct the labeled distance vectors of other points from every point with labels. For each label $D$, we enumerate all the points that contain the label $D$. For each point $p$, we retrieve all the points in range $q.D$ of $p$. For each point $u$ in range $q.D$ of $p$, we assign between $p$ and $u$ to $u.D$. 
-We still consider the Figure~\ref{fig:spatial_map} and \ref{tab:spot_category} as the running example. We start from the point $u$ which contains the label $A$ and get all the points in range $q.A = \sqrt{2}$ of $u$. Then we get the point $v$ and $v.A$ is the distance from $u$ to $v$ which is $\sqrt{2}$. The labeled distance vectors of each points are shown in Table~\ref{tab:lv_spatial}.
+We still consider the Figure~\ref{fig:spatial_map} and \ref{tab:spot_category} as the running example. We start from the point $u$ which contains the label $A$ and get all the points in range $q.A = \sqrt{2}$ of $u$. Then we get the point $v$ and $v.A$ is the distance from $u$ to $v$ which is $\sqrt{2}$. Thus, we put $(v, eq)$ to $\mathit{CAND}_A$, because $v.A=q.A$. The labeled distance vectors of each points are shown in Table~\ref{tab:lv_spatial}. The dominating candidate sets of each $1$-dimensional subspace are shown in Table~\ref{tab:cand_spatial}. The \emph{strictly dominating subspaces} and the \emph{equivalence subspaces} of all the points are shown in Table~\ref{tab:sds_spatial}.
 
 \begin{table}[h]
     \centering
@@ -73,6 +73,35 @@ We still consider the Figure~\ref{fig:spatial_map} and \ref{tab:spot_category} a
     \end{tabular}
     \caption{Labeled distance vector of each points}
     \label{tab:lv_spatial}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    Subspaces & Dominating candidate \\ \hline
+    A         & $(u, dom), (v, eq)$            \\ \hline
+    B         & $(w, dom), (y, dom)$            \\ \hline
+    C         & $(w, dom), (y, dom)$            \\ \hline
+    \end{tabular}
+    \caption{Dominating candidate sets of each $1$-dimensional subspace}
+    \label{tab:cand_spatial}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+      & SDS         & EQS         \\ \hline
+    u & A           & $\emptyset$ \\ \hline
+    v & $\emptyset$ & A           \\ \hline
+    w & BC          & $\emptyset$ \\ \hline
+    x & $\emptyset$ & $\emptyset$ \\ \hline
+    y & BC          & $\emptyset$ \\ \hline
+    \end{tabular}
+    \caption{SDS and EQS of each point}
+    \label{tab:sds_spatial}
 \end{table}
 
 \section{Same Region Pruning}
@@ -108,12 +137,12 @@ In our algorithm, we determine whether two points $u, v$ are in the same region 
   \label{algo:spatial_prune}
   \begin{algorithmic}[1]
   \show\LOOP
-    \REQUIRE Dominating Candidates $CAND$, query vertex $q$, graph $G=(V, E)$;
+    \REQUIRE Dominating Candidates $\mathit{CAND}$, query vertex $q$, graph $G=(V, E)$;
     \ENSURE Pruned Dominating Candidates $CAND$;
     \FORALL {$(l, dist)$ in $LV_q$}
-        \FORALL {$u$ in $CAND_l$}
+        \FORALL {$u$ in $\mathit{CAND}_l$}
             \IF {$u$ is in the same region as other points}
-                \STATE delete $u$ from $CAND_l$
+                \STATE delete $u$ from $\mathit{CAND}_l$
             \ENDIF
         \ENDFOR
     \ENDFOR

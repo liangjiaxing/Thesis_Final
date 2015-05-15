@@ -112,8 +112,8 @@ Both of them together represent a \emph{labeled graph}. In Table~\ref{tab:skill_
         $y$       & 2 & 0 & 1 \\ \hline
         $q$       & 1 & 1 & 2 \\ \hline
     \end{tabular}
-    \caption{\label{tab:distances_graph} distances between each person and each skill}
-    
+    \caption{distances between each person and each skill}
+    \label{tab:distances_graph}
 \end{table}
 
 In the header row of Table~\ref{tab:distances_graph}, $A$, $B$ and $C$ stand for Accounting, Bio-informatics and C++ respectively. The table shows the distances between the people and the skills. For example, the distance between $v$ and skill $B$ is $3$ because $y$ is the closest vertex to $v$ that contains label $B$ and the distance between $v$ and $y$ is $3$. Since C++ is not reachable by $v$ in $3$ hops, the distance between $v$ and $C$ is $\infty$. Each row of Table~\ref{tab:distances_graph} represents a \emph{labeled distance vector} of a vertex.
